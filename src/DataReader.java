@@ -6,6 +6,7 @@ public class DataReader {
 
     private final List<Edge> edgeList;
     private final List<Vertex> vertexList;
+
     private static final String DIR = "res/Graphs/";
 
     public DataReader() {
@@ -39,5 +40,4 @@ public class DataReader {
             edgeList.add(new Edge(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
         }
     }
-
 }

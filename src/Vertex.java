@@ -1,6 +1,7 @@
 public class Vertex {
 
     private final int id;
+
     private String name;
     private String type;
 
@@ -10,4 +11,7 @@ public class Vertex {
         this.type = type;
     }
 
+    public int getId() {
+        return id;
+    }
 }

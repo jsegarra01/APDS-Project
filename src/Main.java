@@ -10,9 +10,12 @@ public class Main {
             e.printStackTrace();
         }
 
-        Graph graph = new Graph(reader.getVertexList());
-        graph.initGraph(reader.getEdgeList());
+        Graph graph = new Graph(reader.getEdgeList(), reader.getVertexList());
+        graph.initGraph();
 
-        System.out.print(graph.toString());
+        GraphTraversal DFS = new GraphTraversal(reader.getVertexList().size(), graph.getMapping());
+        DFS.DFS(graph, reader.getVertexList().get(0));
+
+        //System.out.print(graph.toString());
     }
 }

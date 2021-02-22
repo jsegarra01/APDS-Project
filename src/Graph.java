@@ -1,20 +1,27 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Graph {
 
-    private final int numVertices;
-
     private final float[][] adjacentMatrix;
     private int[] mapping;
 
-    public Graph(List<Vertex> vertexList) {
-        numVertices = vertexList.size();
-        adjacentMatrix = new float[numVertices][numVertices];
+    private final List<Edge> edgeList;
+    private final List<Vertex> vertexList;
+
+    public Graph(List<Edge> edgeList, List<Vertex> vertexList) {
+        this.edgeList = new ArrayList<>(edgeList);
+        this.vertexList = new ArrayList<>(vertexList);
+
+        this.adjacentMatrix = new float[vertexList.size()][vertexList.size()];
         fillWithZeros();
 
-        setMapping(vertexList);
-        System.out.println(Arrays.toString(mapping));
+        setMapping();
+    }
+
+    public int[] getMapping() {
+        return mapping;
     }
 
     private void fillWithZeros() {
@@ -23,16 +30,16 @@ public class Graph {
         }
     }
 
-    private void setMapping(List<Vertex> vertexList) {
-        mapping = new int[numVertices * 2];
+    private void setMapping() {
+        mapping = new int[vertexList.size() * 2];
 
         Arrays.fill(mapping, -1);
-        for (int i = 0; i < numVertices; i++) {
+        for (int i = 0; i < vertexList.size(); i++) {
             mapping[vertexList.get(i).getId()] = i;
         }
     }
 
-    public void initGraph(List<Edge> edgeList) {
+    public void initGraph() {
         for (Edge edge : edgeList) {
             addEdge(edge.getVertexA(), edge.getVertexB(), edge.getWeight());
             addEdge(edge.getVertexB(), edge.getVertexA(), edge.getWeight());
@@ -43,19 +50,13 @@ public class Graph {
         adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = weight;
     }
 
-    public void removeEdge(int vertexA, int vertexB) {
-        adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = 0.0f;
-    }
+    public List<Vertex> getAdjacentVertices(Vertex vertex) {
+        List<Vertex> adjacents = new ArrayList<>();
+        int i = mapping[vertex.getId()];
 
-    public int[] getAdjacentVertices(int vertex) {
-        int[] adjacents = new int[numVertices];
-
-        for (int i = 0; i < numVertices; i++) {
-            if (adjacentMatrix[vertex][i] == 0.0f) {
-                adjacents[i] = -1;
-            }
-            else {
-                adjacents[i] = i;
+        for (int j = 0; j < vertexList.size(); j++) {
+            if (adjacentMatrix[i][j] != 0.0f) {
+                adjacents.add(vertexList.get(j));
             }
         }
 

@@ -17,5 +17,14 @@ public class Main {
         DFS.DFS(graph, reader.getVertexList().get(0));
 
         //System.out.print(graph.toString());
+
+        UI ui = new UI();
+        try {
+            //ui.displayGeneralMenu();
+            ui.displayGraphMenu();
+        }
+        catch(Exception e) {
+            System.out.println("Something went wrong.");
+        }
     }
 }

@@ -13,9 +13,12 @@ public class Main {
         Graph graph = new Graph(reader.getEdgeList(), reader.getVertexList());
         graph.initGraph();
 
-        GraphTraversal DFS = new GraphTraversal(reader.getVertexList().size(), graph.getMapping());
-        DFS.DFS(graph, reader.getVertexList().get(0));
+        //GraphTraversal DFS = new GraphTraversal(reader.getVertexList().size(), graph.getMapping());
+        //DFS.DFS(graph, reader.getVertexList().get(0));
 
         //System.out.print(graph.toString());
+
+        GraphTraversal BFS = new GraphTraversal(reader.getVertexList().size(), graph.getMapping());
+        BFS.BFS(graph, reader.getVertexList().get(0));
     }
 }

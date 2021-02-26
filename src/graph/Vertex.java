@@ -1,3 +1,5 @@
+package graph;
+
 public class Vertex {
 
     private final int id;

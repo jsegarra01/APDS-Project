@@ -1,11 +1,13 @@
+package graph;
+
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
 
 public class GraphTraversal {
 
-    private boolean[] visited;
-    private int[] mapping;
+    private final boolean[] visited;
+    private final int[] mapping;
 
 
     public GraphTraversal(int numVertices, int[] mapping) {
@@ -13,7 +15,7 @@ public class GraphTraversal {
         this.mapping = mapping.clone();
     }
 
-    public void resetVisited(boolean[] visited){
+    public void resetVisited(){
         Arrays.fill(visited, false);
     }
 
@@ -28,21 +30,18 @@ public class GraphTraversal {
     }
 
     public void BFS(Graph graph, Vertex vertex) {
-        Queue<Vertex> queue = new ArrayDeque();
-        Vertex node;
-        resetVisited(visited);
+        Queue<Vertex> queue = new ArrayDeque<>();
 
         queue.add(vertex);
         visited[mapping[vertex.getId()]] = true;
 
-        while(!queue.isEmpty()) {
-            node = queue.poll();
-            for (Vertex adjacent: graph.getAdjacentVertices(node)) {
-                //System.out.println(adjacent.getName());
-                if(!visited[mapping[adjacent.getId()]] && adjacent.getType().equals("DANGER")) {
+        while (!queue.isEmpty()) {
+            Vertex newVertex = queue.poll();
+
+            for (Vertex adjacent: graph.getAdjacentVertices(newVertex)) {
+                if (adjacent.getType().equals("DANGER") && !visited[mapping[adjacent.getId()]]) {
                     queue.add(adjacent);
                     visited[mapping[adjacent.getId()]] = true;
-                    System.out.println(adjacent.getName());
                 }
             }
         }

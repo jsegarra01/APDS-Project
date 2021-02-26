@@ -1,16 +1,17 @@
+package graph;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataReader {
+public class GraphDAO {
 
-    private static final String DIR = "res/Graphs/";
+    private static final String PATH = "res/Graphs/graphXXS.paed";
 
-    public static List<Vertex> parseVertex(String fileName) throws IOException {
+    public static List<Vertex> parseVertex() throws IOException {
         List<Vertex> vertexList = new ArrayList<>();
-        String path = DIR + fileName;
 
-        File file = new File(path);
+        File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
         int counter = Integer.parseInt(bufferedReader.readLine());
@@ -22,11 +23,10 @@ public class DataReader {
         return vertexList;
     }
 
-    public static List<Edge> parseEdge(String fileName) throws IOException {
+    public static List<Edge> parseEdge() throws IOException {
         List<Edge> edgeList = new ArrayList<>();
-        String path = DIR + fileName;
 
-        File file = new File(path);
+        File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
         int counter = Integer.parseInt(bufferedReader.readLine());

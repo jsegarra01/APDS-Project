@@ -1,7 +1,7 @@
 public enum GeneralMenuOptions {
-    ROUTE,
-    INVENTORY,
-    DECK,
-    CREW,
+    GRAPHS,
+    BINARY_TREES,
+    R_TREES,
+    TABLES,
     EXIT
 }

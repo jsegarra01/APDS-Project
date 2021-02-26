@@ -1,3 +1,5 @@
+package graph;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -6,6 +8,7 @@ public class Graph {
 
     private final float[][] adjacentMatrix;
     private int[] mapping;
+    private final int numVertices;
 
     private final List<Edge> edgeList;
     private final List<Vertex> vertexList;
@@ -17,11 +20,24 @@ public class Graph {
         this.adjacentMatrix = new float[vertexList.size()][vertexList.size()];
         fillWithZeros();
 
+        numVertices = vertexList.size();
         setMapping();
+    }
+
+    public int getNumVertices() {
+        return numVertices;
     }
 
     public int[] getMapping() {
         return mapping;
+    }
+
+    public Vertex getVertex(int vertexID) {
+        return vertexList.get(mapping[vertexID]);
+    }
+
+    public boolean isVertex(int vertexID) {
+        return mapping[vertexID] != -1;
     }
 
     private void fillWithZeros() {
@@ -34,7 +50,7 @@ public class Graph {
         mapping = new int[vertexList.size() * 2];
 
         Arrays.fill(mapping, -1);
-        for (int i = 0; i < vertexList.size(); i++) {
+        for (int i = 0; i < numVertices; i++) {
             mapping[vertexList.get(i).getId()] = i;
         }
     }
@@ -54,7 +70,7 @@ public class Graph {
         List<Vertex> adjacents = new ArrayList<>();
         int i = mapping[vertex.getId()];
 
-        for (int j = 0; j < vertexList.size(); j++) {
+        for (int j = 0; j < numVertices; j++) {
             if (adjacentMatrix[i][j] != 0.0f) {
                 adjacents.add(vertexList.get(j));
             }

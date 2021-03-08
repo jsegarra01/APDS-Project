@@ -28,4 +28,12 @@ public class GraphManager {
         graphTraversal.BFS(graph, graph.getVertex(vertexID));
     }
 
+    public void showUniversalNauticalChart(int vertexID) {
+        graphTraversal.resetVisited();
+        Graph MST = graphTraversal.MST(graph, graph.getVertex(vertexID));
+    }
+
+    public String graphToString() {
+        return graph.toString();
+    }
 }

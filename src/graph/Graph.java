@@ -6,12 +6,17 @@ import java.util.List;
 
 public class Graph {
 
-    private final float[][] adjacentMatrix;
+    private float[][] adjacentMatrix;
     private int[] mapping;
-    private final int numVertices;
+    private int numVertices;
 
     private final List<Edge> edgeList;
     private final List<Vertex> vertexList;
+
+    public Graph() {
+        edgeList = new ArrayList<>();
+        vertexList = new ArrayList<>();
+    }
 
     public Graph(List<Edge> edgeList, List<Vertex> vertexList) {
         this.edgeList = new ArrayList<>(edgeList);
@@ -66,10 +71,26 @@ public class Graph {
         adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = weight;
     }
 
+    public float getEdgeWeight(Vertex A, Vertex B) {
+        return adjacentMatrix[mapping[A.getId()]][mapping[B.getId()]];
+    }
+    
+    public int getNumOfDisconnectedVertices() {
+        int numOfDisconnectedVertices = 0;
+
+        for (Vertex vertex : vertexList) {
+            if (getAdjacentVertices(vertex).size() == 0){
+                numOfDisconnectedVertices++;
+            }
+        }
+
+        return numOfDisconnectedVertices;
+    }
+
     public List<Vertex> getAdjacentVertices(Vertex vertex) {
         List<Vertex> adjacents = new ArrayList<>();
-        int i = mapping[vertex.getId()];
 
+        int i = mapping[vertex.getId()];
         for (int j = 0; j < numVertices; j++) {
             if (adjacentMatrix[i][j] != 0.0f) {
                 adjacents.add(vertexList.get(j));

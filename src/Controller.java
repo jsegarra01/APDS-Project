@@ -85,15 +85,26 @@ public class Controller {
 
     private void showPointsOfInterest() {
         int vertexID = askVertexID();
+        UI.displayMessage("\nDFS found the following points of interest:");
+        UI.displayMessage("");
         graphManager.showPointsOfInterest(vertexID);
+        UI.displayMessage("");
     }
 
     private void showDangerousPlaces() {
         int vertexID = askVertexID();
+        UI.displayMessage("\nBFS found the following dangerous places:");
+        UI.displayMessage("");
         graphManager.showDangerousPlaces(vertexID);
+        UI.displayMessage("");
     }
 
     private void generateUniversalNauticalChart() {
+        int vertexID = askVertexID();
+        //UI.displayMessage("\nBFS found the following dangerous places:");
+        UI.displayMessage("");
+        graphManager.showUniversalNauticalChart(vertexID);
+        UI.displayMessage("");
     }
 
     private void findOptimalRoute() {

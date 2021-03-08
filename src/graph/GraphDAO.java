@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GraphDAO {
 
-    private static final String PATH = "res/Graphs/graphXXS.paed";
+    private static final String PATH = "res/Graphs/graphXL.paed";
 
     public static List<Vertex> parseVertex() throws IOException {
         List<Vertex> vertexList = new ArrayList<>();
@@ -20,6 +20,7 @@ public class GraphDAO {
             vertexList.add(new Vertex(Integer.parseInt(info[0]), info[1], info[2]));
         }
 
+        bufferedReader.close();
         return vertexList;
     }
 
@@ -40,6 +41,7 @@ public class GraphDAO {
             edgeList.add(new Edge(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
         }
 
+        bufferedReader.close();
         return edgeList;
     }
 }

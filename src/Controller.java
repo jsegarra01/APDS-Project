@@ -1,6 +1,7 @@
 import graph.GraphManager;
 
-import java.io.IOException;
+import view.*;
+import view.menus.*;
 
 public class Controller {
 
@@ -13,9 +14,8 @@ public class Controller {
     private GeneralMenuOptions generalOption;
     private GraphMenuOptions graphOption;
 
-    // TODO: handle exception
-    public Controller() throws IOException {
-        graphManager = new GraphManager();
+    public Controller(GraphManager graphManager) {
+        this.graphManager = graphManager;
         UI = new UIManager();
     }
 
@@ -25,7 +25,6 @@ public class Controller {
                 case 1 -> generalOption = UI.displayGeneralMenu();
                 case 2 -> graphOption = UI.displayGraphMenu();
             }
-            // New line
             UI.displayMessage("");
         }
         catch (InvalidInputException e) {
@@ -60,39 +59,60 @@ public class Controller {
                 case DIJKSTRA -> findOptimalRoute();
             }
 
-        } while (graphOption != GraphMenuOptions.GOBACK);
+        } while (graphOption != GraphMenuOptions.BACK);
     }
 
-    private int askVertexID() {
+    private int askVertexID(String vertex, boolean checkType, boolean type) {
         int vertexID;
 
         while (true) {
             try {
-                 vertexID = UI.askInteger("Enter the origin node's identifier: ");
+                vertexID = UI.askInteger("Enter the " + vertex + " node's identifier: ");
                 if (graphManager.validateVertex(vertexID)) {
-                    break;
+                    if (checkType) {
+                        if (type) {
+                            if (graphManager.validatePointOfInterest(vertexID)) {
+                                break;
+                            }
+                            else {
+                                UI.displayError("The specified ID does not correspond not a point of interest");
+                            }
+                        }
+                        else {
+                            if (graphManager.validateDangerousPlace(vertexID)) {
+                                break;
+                            }
+                            else {
+                                UI.displayError("The specified ID does not correspond not a dangerous place");
+                            }
+                        }
+                    }
+                    else {
+                        break;
+                    }
                 }
                 else {
-                    UI.displayError("The specified ID does not correspond to any vertex");
+                   UI.displayError("The specified ID does not correspond to any vertex or it may be disconnected");
                 }
             } catch (NumberFormatException e) {
                 UI.displayError("The specified input is not an ID");
             }
         }
-
         return vertexID;
     }
 
     private void showPointsOfInterest() {
-        int vertexID = askVertexID();
+        int vertexID = askVertexID("origin", true, true);
+
         UI.displayMessage("\nDFS found the following points of interest:");
         UI.displayMessage("");
-        graphManager.showPointsOfInterest(vertexID);
+        graphManager.getPointsOfInterest(vertexID);
         UI.displayMessage("");
     }
 
     private void showDangerousPlaces() {
-        int vertexID = askVertexID();
+        int vertexID = askVertexID("origin", true, false);
+
         UI.displayMessage("\nBFS found the following dangerous places:");
         UI.displayMessage("");
         graphManager.showDangerousPlaces(vertexID);
@@ -100,14 +120,22 @@ public class Controller {
     }
 
     private void generateUniversalNauticalChart() {
-        int vertexID = askVertexID();
-        //UI.displayMessage("\nBFS found the following dangerous places:");
+        int vertexID = askVertexID("origin", false, false);
+
+        UI.displayMessage("\nFinding the MST...");
         UI.displayMessage("");
         graphManager.showUniversalNauticalChart(vertexID);
         UI.displayMessage("");
     }
 
     private void findOptimalRoute() {
+        int startVertexID = askVertexID("origin", false, false);
+        int endVertexID = askVertexID("destination", false, false);
+
+        UI.displayMessage("\nFinding the optimal route...");
+        UI.displayMessage("");
+        graphManager.searchShortestPath(startVertexID, endVertexID);
+        UI.displayMessage("");
     }
 
     private void runInventory() {

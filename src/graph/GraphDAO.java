@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GraphDAO {
 
-    private static final String PATH = "res/Graphs/graphXL.paed";
+    private static final String PATH = "res/Graphs/graphXXS.paed";
 
     public static List<Vertex> parseVertex() throws IOException {
         List<Vertex> vertexList = new ArrayList<>();
@@ -30,6 +30,7 @@ public class GraphDAO {
         File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
+        // Skip vertices
         int counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             bufferedReader.readLine();

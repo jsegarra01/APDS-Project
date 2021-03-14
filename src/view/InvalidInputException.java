@@ -1,5 +1,7 @@
+package view;
+
 /**
- * This exception will be thrown by the UIManager when entering an option which is not
+ * This exception will be thrown by the view.view.menus.UIManager when entering an option which is not
  * valid. This exception allows us to limit the inputs from the user so only valid options can be
  * entered and thus eliminate incorrect values.
  *

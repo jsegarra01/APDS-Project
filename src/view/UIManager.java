@@ -1,4 +1,8 @@
+package view;
+
 import java.util.Scanner;
+
+import view.menus.*;
 
 /**
  * The UI class provides the interface to interact with a user
@@ -23,7 +27,7 @@ public class UIManager {
     /**
      * Shows the general menu on the console and requests an option to the user.
      *
-     * @return the option entered by the user in form of a value from the enumeration GeneralMenuOptions.
+     * @return the option entered by the user in form of a value from the enumeration view.menus.GeneralMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
      * @see GeneralMenuOptions
      */
@@ -51,7 +55,7 @@ public class UIManager {
     /**
      * Shows the graphs menu on the console and requests an option to the user.
      *
-     * @return the option entered by the user in form of a value from the enumeration GraphMenuOptions.
+     * @return the option entered by the user in form of a value from the enumeration view.menus.GraphMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
      * @see GraphMenuOptions
      */
@@ -69,7 +73,7 @@ public class UIManager {
             case "B" -> GraphMenuOptions.BFS;
             case "C" -> GraphMenuOptions.MST;
             case "D" -> GraphMenuOptions.DIJKSTRA;
-            case "E" -> GraphMenuOptions.GOBACK;
+            case "E" -> GraphMenuOptions.BACK;
             default -> throw new InvalidInputException(option);
         };
     }

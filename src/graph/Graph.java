@@ -29,8 +29,24 @@ public class Graph {
         setMapping();
     }
 
+    public List<Edge> getEdgeList() {
+        return edgeList;
+    }
+
     public int getNumVertices() {
         return numVertices;
+    }
+
+    public int getNumOfDisconnectedVertices() {
+        int numOfDisconnectedVertices = 0;
+
+        for (Vertex vertex : vertexList) {
+            if (getAdjacentVertices(vertex).size() == 0){
+                numOfDisconnectedVertices++;
+            }
+        }
+
+        return numOfDisconnectedVertices;
     }
 
     public int[] getMapping() {
@@ -41,8 +57,24 @@ public class Graph {
         return vertexList.get(mapping[vertexID]);
     }
 
+    public Vertex getUnmappedVertex(int vertexID) {
+        return vertexList.get(vertexID);
+    }
+
     public boolean isVertex(int vertexID) {
         return mapping[vertexID] != -1;
+    }
+
+    public boolean isPointOfInterest(int vertexID) {
+        return getVertex(vertexID).getType().equals("INTEREST");
+    }
+
+    public boolean isDangerousPlace(int vertexID) {
+        return getVertex(vertexID).getType().equals("DANGER");
+    }
+
+    public boolean isVertexDisconnected(int vertexID) {
+        return getAdjacentVertices(getVertex(vertexID)).size() == 0;
     }
 
     private void fillWithZeros() {
@@ -73,18 +105,6 @@ public class Graph {
 
     public float getEdgeWeight(Vertex A, Vertex B) {
         return adjacentMatrix[mapping[A.getId()]][mapping[B.getId()]];
-    }
-    
-    public int getNumOfDisconnectedVertices() {
-        int numOfDisconnectedVertices = 0;
-
-        for (Vertex vertex : vertexList) {
-            if (getAdjacentVertices(vertex).size() == 0){
-                numOfDisconnectedVertices++;
-            }
-        }
-
-        return numOfDisconnectedVertices;
     }
 
     public List<Vertex> getAdjacentVertices(Vertex vertex) {

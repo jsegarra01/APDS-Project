@@ -1,3 +1,5 @@
+package view.menus;
+
 public enum GeneralMenuOptions {
     GRAPHS,
     BINARY_TREES,

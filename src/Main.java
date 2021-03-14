@@ -1,11 +1,17 @@
+import graph.GraphManager;
+
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        GraphManager graphManager = null;
+
         try {
-            new Controller().run();
+            graphManager = new GraphManager();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("ERROR: Unexpected problem reading the datasets");
         }
+
+        new Controller(graphManager).run();
     }
 }

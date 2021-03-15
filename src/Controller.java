@@ -10,9 +10,11 @@ public class Controller {
 
     private static final int GENERAL_MENU_ID = 1;
     private static final int GRAPHS_MENU_ID = 2;
+    private static final int BINARY_TREES_MENU_ID = 3;
 
     private GeneralMenuOptions generalOption;
     private GraphMenuOptions graphOption;
+    private TreesMenuOptions binaryTreesOption;
 
     public Controller(GraphManager graphManager) {
         this.graphManager = graphManager;
@@ -24,6 +26,7 @@ public class Controller {
             switch (menuID) {
                 case 1 -> generalOption = UI.displayGeneralMenu();
                 case 2 -> graphOption = UI.displayGraphMenu();
+                case 3 -> binaryTreesOption = UI.displayTreesMenu();
             }
             UI.displayMessage("");
         }
@@ -139,6 +142,20 @@ public class Controller {
     }
 
     private void runInventory() {
+        do {
+            getOption(BINARY_TREES_MENU_ID);
+
+            switch (binaryTreesOption) {
+                // TODO: replace methods
+                case ADD -> showPointsOfInterest();
+                case REMOVE -> showDangerousPlaces();
+                case LIST -> generateUniversalNauticalChart();
+                case EXACT -> findOptimalRoute();
+                case RANGE -> findOptimalRoute();
+                case EXIT -> findOptimalRoute();
+            }
+
+        } while (graphOption != GraphMenuOptions.BACK);
     }
 
     private void runDeck() {

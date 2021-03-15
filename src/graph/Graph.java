@@ -10,27 +10,27 @@ public class Graph {
     private int[] mapping;
     private int numVertices;
 
-    private final List<Edge> edgeList;
-    private final List<Vertex> vertexList;
+    private final List<Distance> distanceList;
+    private final List<Place> placeList;
 
     public Graph() {
-        edgeList = new ArrayList<>();
-        vertexList = new ArrayList<>();
+        distanceList = new ArrayList<>();
+        placeList = new ArrayList<>();
     }
 
-    public Graph(List<Edge> edgeList, List<Vertex> vertexList) {
-        this.edgeList = new ArrayList<>(edgeList);
-        this.vertexList = new ArrayList<>(vertexList);
+    public Graph(List<Distance> distanceList, List<Place> placeList) {
+        this.distanceList = new ArrayList<>(distanceList);
+        this.placeList = new ArrayList<>(placeList);
 
-        this.adjacentMatrix = new float[vertexList.size()][vertexList.size()];
+        this.adjacentMatrix = new float[placeList.size()][placeList.size()];
         fillWithZeros();
 
-        numVertices = vertexList.size();
+        numVertices = placeList.size();
         setMapping();
     }
 
-    public List<Edge> getEdgeList() {
-        return edgeList;
+    public List<Distance> getEdgeList() {
+        return distanceList;
     }
 
     public int getNumVertices() {
@@ -40,8 +40,8 @@ public class Graph {
     public int getNumOfDisconnectedVertices() {
         int numOfDisconnectedVertices = 0;
 
-        for (Vertex vertex : vertexList) {
-            if (getAdjacentVertices(vertex).size() == 0){
+        for (Place place : placeList) {
+            if (getAdjacentVertices(place).size() == 0){
                 numOfDisconnectedVertices++;
             }
         }
@@ -53,12 +53,12 @@ public class Graph {
         return mapping;
     }
 
-    public Vertex getVertex(int vertexID) {
-        return vertexList.get(mapping[vertexID]);
+    public Place getVertex(int vertexID) {
+        return placeList.get(mapping[vertexID]);
     }
 
-    public Vertex getUnmappedVertex(int vertexID) {
-        return vertexList.get(vertexID);
+    public Place getUnmappedVertex(int vertexID) {
+        return placeList.get(vertexID);
     }
 
     public boolean isVertex(int vertexID) {
@@ -84,18 +84,18 @@ public class Graph {
     }
 
     private void setMapping() {
-        mapping = new int[vertexList.size() * 2];
+        mapping = new int[placeList.size() * 2];
 
         Arrays.fill(mapping, -1);
         for (int i = 0; i < numVertices; i++) {
-            mapping[vertexList.get(i).getId()] = i;
+            mapping[placeList.get(i).getId()] = i;
         }
     }
 
     public void initGraph() {
-        for (Edge edge : edgeList) {
-            addEdge(edge.getVertexA(), edge.getVertexB(), edge.getWeight());
-            addEdge(edge.getVertexB(), edge.getVertexA(), edge.getWeight());
+        for (Distance distance : distanceList) {
+            addEdge(distance.getVertexA(), distance.getVertexB(), distance.getWeight());
+            addEdge(distance.getVertexB(), distance.getVertexA(), distance.getWeight());
         }
     }
 
@@ -103,17 +103,17 @@ public class Graph {
         adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = weight;
     }
 
-    public float getEdgeWeight(Vertex A, Vertex B) {
+    public float getEdgeWeight(Place A, Place B) {
         return adjacentMatrix[mapping[A.getId()]][mapping[B.getId()]];
     }
 
-    public List<Vertex> getAdjacentVertices(Vertex vertex) {
-        List<Vertex> adjacents = new ArrayList<>();
+    public List<Place> getAdjacentVertices(Place place) {
+        List<Place> adjacents = new ArrayList<>();
 
-        int i = mapping[vertex.getId()];
+        int i = mapping[place.getId()];
         for (int j = 0; j < numVertices; j++) {
             if (adjacentMatrix[i][j] != 0.0f) {
-                adjacents.add(vertexList.get(j));
+                adjacents.add(placeList.get(j));
             }
         }
 

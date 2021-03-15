@@ -44,8 +44,8 @@ public class GraphManager {
         graphTraversal.clearMinWeight();
         Graph MST = graphTraversal.MST(graph, graph.getVertex(vertexID));
 
-        for (Edge edge : MST.getEdgeList()) {
-            System.out.println("\t(" + edge.getVertexA() + ") --[" + edge.getWeight() + "]--> (" + edge.getVertexB() + ")");
+        for (Distance distance : MST.getEdgeList()) {
+            System.out.println("\t(" + distance.getVertexA() + ") --[" + distance.getWeight() + "]--> (" + distance.getVertexB() + ")");
         }
         System.out.println("\nThe minimum SPT cost is: " + graphTraversal.getMinWeight());
     }

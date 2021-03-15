@@ -1,13 +1,13 @@
 package graph;
 
-public class Vertex {
+public class Place {
 
     private final int id;
 
     private final String name;
     private final String type;
 
-    public Vertex(int id, String name, String type) {
+    public Place(int id, String name, String type) {
         this.id = id;
         this.name = name;
         this.type = type;

@@ -1,12 +1,12 @@
 package graph;
 
-public class Edge {
+public class Distance {
 
     private final int vertexA;
     private final int vertexB;
     private final float weight;
 
-    public Edge(int vertexA, int vertexB, float weight) {
+    public Distance(int vertexA, int vertexB, float weight) {
         this.vertexA = vertexA;
         this.vertexB = vertexB;
         this.weight = weight;

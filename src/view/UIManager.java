@@ -79,6 +79,34 @@ public class UIManager {
     }
 
     /**
+     * Shows the trees menu on the console and requests an option to the user.
+     *
+     * @return the option entered by the user in form of a value from the enumeration view.menus.TreesMenuOptions.
+     * @throws InvalidInputException if the user input is invalid.
+     * @see TreesMenuOptions
+     */
+    public TreesMenuOptions displayTreesMenu() throws InvalidInputException {
+        System.out.println("\tA. Add treasure");
+        System.out.println("\tB. Remove treasure");
+        System.out.println("\tC. List loot");
+        System.out.println("\tD. Search by value (exact)");
+        System.out.println("\tE. Search by value (range)\n");
+        System.out.println("\tF. Go back\n");
+
+        String option = askString("What functionality do you want to run? ");
+
+        return switch (option) {
+            case "A" -> TreesMenuOptions.ADD;
+            case "B" -> TreesMenuOptions.REMOVE;
+            case "C" -> TreesMenuOptions.LIST;
+            case "D" -> TreesMenuOptions.EXACT;
+            case "E" -> TreesMenuOptions.RANGE;
+            case "F" -> TreesMenuOptions.EXIT;
+            default -> throw new InvalidInputException(option);
+        };
+    }
+
+    /**
      * Shows a message on the screen and requests the user to input a String.
      *
      * @param message the message to show on the screen.

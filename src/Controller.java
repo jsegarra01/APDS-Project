@@ -1,11 +1,13 @@
 import graph.GraphManager;
 
+import trees.TreesManager;
 import view.*;
 import view.menus.*;
 
 public class Controller {
 
     private final GraphManager graphManager;
+    private final TreesManager treesManager;
     private final UIManager UI;
 
     private static final int GENERAL_MENU_ID = 1;
@@ -14,10 +16,12 @@ public class Controller {
 
     private GeneralMenuOptions generalOption;
     private GraphMenuOptions graphOption;
-    private TreesMenuOptions binaryTreesOption;
+    private BTreesMenuOptions binaryTreesOption;
 
-    public Controller(GraphManager graphManager) {
+    public Controller(GraphManager graphManager, TreesManager treesManager) {
         this.graphManager = graphManager;
+        this.treesManager = treesManager;
+
         UI = new UIManager();
     }
 
@@ -51,6 +55,10 @@ public class Controller {
         UI.displayMessage("So long, comrade!");
     }
 
+    // ---------------------------------------------------------------------------------
+    // GRAPHS
+    // ---------------------------------------------------------------------------------
+
     private void runRoute() {
         do {
             getOption(GRAPHS_MENU_ID);
@@ -65,16 +73,16 @@ public class Controller {
         } while (graphOption != GraphMenuOptions.BACK);
     }
 
-    private int askVertexID(String vertex, boolean checkType, boolean type) {
-        int vertexID;
+    private int askGraphNodeID(String node, boolean checkType, boolean type) {
+        int nodeID;
 
         while (true) {
             try {
-                vertexID = UI.askInteger("Enter the " + vertex + " node's identifier: ");
-                if (graphManager.validateVertex(vertexID)) {
+                nodeID = UI.askInteger("Enter the " + node + " node's identifier: ");
+                if (graphManager.validateVertex(nodeID)) {
                     if (checkType) {
                         if (type) {
-                            if (graphManager.validatePointOfInterest(vertexID)) {
+                            if (graphManager.validatePointOfInterest(nodeID)) {
                                 break;
                             }
                             else {
@@ -82,7 +90,7 @@ public class Controller {
                             }
                         }
                         else {
-                            if (graphManager.validateDangerousPlace(vertexID)) {
+                            if (graphManager.validateDangerousPlace(nodeID)) {
                                 break;
                             }
                             else {
@@ -95,67 +103,88 @@ public class Controller {
                     }
                 }
                 else {
-                   UI.displayError("The specified ID does not correspond to any vertex or it may be disconnected");
+                   UI.displayError("The specified ID does not correspond to any node or it may be disconnected");
                 }
             } catch (NumberFormatException e) {
                 UI.displayError("The specified input is not an ID");
             }
         }
-        return vertexID;
+        return nodeID;
     }
 
     private void showPointsOfInterest() {
-        int vertexID = askVertexID("origin", true, true);
+        int nodeID = askGraphNodeID("origin", true, true);
 
         UI.displayMessage("\nDFS found the following points of interest:");
         UI.displayMessage("");
-        graphManager.getPointsOfInterest(vertexID);
+        graphManager.getPointsOfInterest(nodeID);
         UI.displayMessage("");
     }
 
     private void showDangerousPlaces() {
-        int vertexID = askVertexID("origin", true, false);
+        int nodeID = askGraphNodeID("origin", true, false);
 
         UI.displayMessage("\nBFS found the following dangerous places:");
         UI.displayMessage("");
-        graphManager.showDangerousPlaces(vertexID);
+        graphManager.showDangerousPlaces(nodeID);
         UI.displayMessage("");
     }
 
     private void generateUniversalNauticalChart() {
-        int vertexID = askVertexID("origin", false, false);
+        int nodeID = askGraphNodeID("origin", false, false);
 
         UI.displayMessage("\nFinding the MST...");
         UI.displayMessage("");
-        graphManager.showUniversalNauticalChart(vertexID);
+        graphManager.showUniversalNauticalChart(nodeID);
         UI.displayMessage("");
     }
 
     private void findOptimalRoute() {
-        int startVertexID = askVertexID("origin", false, false);
-        int endVertexID = askVertexID("destination", false, false);
+        int startNodeID = askGraphNodeID("origin", false, false);
+        int endNodeID = askGraphNodeID("destination", false, false);
 
         UI.displayMessage("\nFinding the optimal route...");
         UI.displayMessage("");
-        graphManager.searchShortestPath(startVertexID, endVertexID);
+        graphManager.searchShortestPath(startNodeID, endNodeID);
         UI.displayMessage("");
     }
+
+    // ---------------------------------------------------------------------------------
+    // BINARY TREES
+    // ---------------------------------------------------------------------------------
 
     private void runInventory() {
         do {
             getOption(BINARY_TREES_MENU_ID);
 
             switch (binaryTreesOption) {
-                // TODO: replace methods
-                case ADD -> showPointsOfInterest();
-                case REMOVE -> showDangerousPlaces();
-                case LIST -> generateUniversalNauticalChart();
-                case EXACT -> findOptimalRoute();
-                case RANGE -> findOptimalRoute();
-                case EXIT -> findOptimalRoute();
+                case ADD -> addTreasure();
+                case REMOVE -> removeTreasure();
+                case LIST -> listLoot();
+                case EXACT -> searchByExactValue();
+                case RANGE -> searchByRangeValue();
             }
 
-        } while (graphOption != GraphMenuOptions.BACK);
+        } while (binaryTreesOption != BTreesMenuOptions.BACK);
+    }
+
+    private void addTreasure() {
+    }
+
+    private void removeTreasure() {
+
+    }
+
+    private void listLoot() {
+
+    }
+
+    private void searchByExactValue() {
+
+    }
+
+    private void searchByRangeValue() {
+
     }
 
     private void runDeck() {

@@ -1,10 +1,10 @@
 package view.menus;
 
-public enum TreesMenuOptions {
+public enum BTreesMenuOptions {
     ADD,
     REMOVE,
     LIST,
     EXACT,
     RANGE,
-    EXIT
+    BACK
 }

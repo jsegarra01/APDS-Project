@@ -1,13 +1,12 @@
 package graph;
 
-public class Place {
+public class GraphNode {
 
     private final int id;
-
     private final String name;
     private final String type;
 
-    public Place(int id, String name, String type) {
+    public GraphNode(int id, String name, String type) {
         this.id = id;
         this.name = name;
         this.type = type;

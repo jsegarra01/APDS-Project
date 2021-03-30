@@ -8,8 +8,8 @@ public class GraphDAO {
 
     private static final String PATH = "res/Graphs/graphXXS.paed";
 
-    public static List<Place> parseVertex() throws IOException {
-        List<Place> placeList = new ArrayList<>();
+    public static List<GraphNode> parseNodes() throws IOException {
+        List<GraphNode> graphNodeList = new ArrayList<>();
 
         File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -17,15 +17,15 @@ public class GraphDAO {
         int counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            placeList.add(new Place(Integer.parseInt(info[0]), info[1], info[2]));
+            graphNodeList.add(new GraphNode(Integer.parseInt(info[0]), info[1], info[2]));
         }
 
         bufferedReader.close();
-        return placeList;
+        return graphNodeList;
     }
 
-    public static List<Distance> parseEdge() throws IOException {
-        List<Distance> distanceList = new ArrayList<>();
+    public static List<Edge> parseEdge() throws IOException {
+        List<Edge> edgeList = new ArrayList<>();
 
         File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -39,10 +39,10 @@ public class GraphDAO {
         counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            distanceList.add(new Distance(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
+            edgeList.add(new Edge(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
         }
 
         bufferedReader.close();
-        return distanceList;
+        return edgeList;
     }
 }

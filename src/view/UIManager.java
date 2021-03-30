@@ -83,9 +83,9 @@ public class UIManager {
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.TreesMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
-     * @see TreesMenuOptions
+     * @see BTreesMenuOptions
      */
-    public TreesMenuOptions displayTreesMenu() throws InvalidInputException {
+    public BTreesMenuOptions displayTreesMenu() throws InvalidInputException {
         System.out.println("\tA. Add treasure");
         System.out.println("\tB. Remove treasure");
         System.out.println("\tC. List loot");
@@ -96,12 +96,12 @@ public class UIManager {
         String option = askString("What functionality do you want to run? ");
 
         return switch (option) {
-            case "A" -> TreesMenuOptions.ADD;
-            case "B" -> TreesMenuOptions.REMOVE;
-            case "C" -> TreesMenuOptions.LIST;
-            case "D" -> TreesMenuOptions.EXACT;
-            case "E" -> TreesMenuOptions.RANGE;
-            case "F" -> TreesMenuOptions.EXIT;
+            case "A" -> BTreesMenuOptions.ADD;
+            case "B" -> BTreesMenuOptions.REMOVE;
+            case "C" -> BTreesMenuOptions.LIST;
+            case "D" -> BTreesMenuOptions.EXACT;
+            case "E" -> BTreesMenuOptions.RANGE;
+            case "F" -> BTreesMenuOptions.BACK;
             default -> throw new InvalidInputException(option);
         };
     }

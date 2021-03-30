@@ -8,8 +8,8 @@ public class GraphDAO {
 
     private static final String PATH = "res/Graphs/graphXXS.paed";
 
-    public static List<Vertex> parseVertex() throws IOException {
-        List<Vertex> vertexList = new ArrayList<>();
+    public static List<GraphNode> parseNodes() throws IOException {
+        List<GraphNode> graphNodeList = new ArrayList<>();
 
         File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -17,11 +17,11 @@ public class GraphDAO {
         int counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            vertexList.add(new Vertex(Integer.parseInt(info[0]), info[1], info[2]));
+            graphNodeList.add(new GraphNode(Integer.parseInt(info[0]), info[1], info[2]));
         }
 
         bufferedReader.close();
-        return vertexList;
+        return graphNodeList;
     }
 
     public static List<Edge> parseEdge() throws IOException {

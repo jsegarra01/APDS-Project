@@ -32,10 +32,10 @@ public class GraphTraversal {
         minWeight = 0;
     }
 
-    public void DFS(Graph graph, Vertex vertex) {
-        visited[mapping[vertex.getId()]] = true;
+    public void DFS(Graph graph, GraphNode node) {
+        visited[mapping[node.getId()]] = true;
         
-        for (Vertex adjacent : graph.getAdjacentVertices(vertex)) {
+        for (GraphNode adjacent : graph.getAdjacentVertices(node)) {
             if (!visited[mapping[adjacent.getId()]] && adjacent.getType().equals("INTEREST")) {
                 System.out.println("\t" + adjacent.getName());
                 DFS(graph, adjacent);
@@ -43,17 +43,17 @@ public class GraphTraversal {
         }
     }
 
-    public void BFS(Graph graph, Vertex vertex) {
-        Queue<Vertex> queue = new ArrayDeque<>();
+    public void BFS(Graph graph, GraphNode node) {
+        Queue<GraphNode> queue = new ArrayDeque<>();
 
-        queue.add(vertex);
-        visited[mapping[vertex.getId()]] = true;
+        queue.add(node);
+        visited[mapping[node.getId()]] = true;
 
-        System.out.println("\t" + vertex.getName());
+        System.out.println("\t" + node.getName());
         while (!queue.isEmpty()) {
-            Vertex newVertex = queue.poll();
+            GraphNode newGraphNode = queue.poll();
 
-            for (Vertex adjacent: graph.getAdjacentVertices(newVertex)) {
+            for (GraphNode adjacent: graph.getAdjacentVertices(newGraphNode)) {
                 if (!visited[mapping[adjacent.getId()]] && adjacent.getType().equals("DANGER")) {
                     queue.add(adjacent);
                     System.out.println("\t" + adjacent.getName());
@@ -63,15 +63,15 @@ public class GraphTraversal {
         }
     }
 
-    public Graph MST(Graph graph, Vertex origin) {
-        List<Vertex> vertices = new ArrayList<>();
+    public Graph MST(Graph graph, GraphNode origin) {
+        List<GraphNode> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         int disconnectedVertices = graph.getNumOfDisconnectedVertices();
 
         vertices.add(origin);
         visited[mapping[origin.getId()]] = true;
 
-        while (vertices.size() < graph.getNumVertices() - disconnectedVertices) {
+        while (vertices.size() < graph.getNumNodes() - disconnectedVertices) {
             Edge nextEdge = getLeastWeightEdge(graph, vertices);
 
             visited[mapping[nextEdge.getVertexB()]] = true;
@@ -84,17 +84,17 @@ public class GraphTraversal {
         return new Graph(edges, vertices);
     }
 
-    private Edge getLeastWeightEdge(Graph graph, List<Vertex> vertices) {
+    private Edge getLeastWeightEdge(Graph graph, List<GraphNode> vertices) {
         Edge minEdge = null;
 
         float minWeight = Float.MAX_VALUE;
         float adjacentWeight;
 
-        for (Vertex vertex : vertices) {
-            for (Vertex adjacent : graph.getAdjacentVertices(vertex)) {
-                adjacentWeight = graph.getEdgeWeight(vertex, adjacent);
+        for (GraphNode graphNode : vertices) {
+            for (GraphNode adjacent : graph.getAdjacentVertices(graphNode)) {
+                adjacentWeight = graph.getEdgeWeight(graphNode, adjacent);
                 if (!visited[mapping[adjacent.getId()]] && adjacentWeight < minWeight) {
-                    minEdge = new Edge(vertex.getId(), adjacent.getId(), adjacentWeight);
+                    minEdge = new Edge(graphNode.getId(), adjacent.getId(), adjacentWeight);
                     minWeight = adjacentWeight;
                 }
             }
@@ -103,22 +103,22 @@ public class GraphTraversal {
         return minEdge;
     }
 
-    public List<Integer> Dijkstra(Graph graph, Vertex start, Vertex end) {
+    public List<Integer> Dijkstra(Graph graph, GraphNode start, GraphNode end) {
         List<Integer> path = new ArrayList<>();
-        float[] distances = new float[graph.getNumVertices()];
-        int[] parents = new int[graph.getNumVertices()];
+        float[] distances = new float[graph.getNumNodes()];
+        int[] parents = new int[graph.getNumNodes()];
         float newAdjacentWeight;
 
         Arrays.fill(distances, Float.MAX_VALUE);
         distances[mapping[start.getId()]] = 0;
         parents[mapping[start.getId()]] = -1;
 
-        Vertex current = start;
+        GraphNode current = start;
         while (!visited[mapping[end.getId()]]) {
-            List<Vertex> adjacents = graph.getAdjacentVertices(current);
+            List<GraphNode> adjacents = graph.getAdjacentVertices(current);
             boolean allDanger = areAllDangerous(adjacents);
 
-            for (Vertex adjacent : adjacents) {
+            for (GraphNode adjacent : adjacents) {
                 // Second condition modifies Dijkstra to avoid dangerous places unless there is no other choice
                 if (!visited[mapping[adjacent.getId()]] && (allDanger || !adjacent.getType().equals("DANGER"))) {
                     newAdjacentWeight = distances[mapping[current.getId()]] + graph.getEdgeWeight(current, adjacent);
@@ -136,16 +136,16 @@ public class GraphTraversal {
         return getPath(path, parents, end.getId(), 0);
     }
 
-    private boolean areAllDangerous(List<Vertex> adjacents) {
-        for (Vertex vertex : adjacents) {
-            if (vertex.getType().equals("INTEREST")) {
+    private boolean areAllDangerous(List<GraphNode> adjacents) {
+        for (GraphNode graphNode : adjacents) {
+            if (graphNode.getType().equals("INTEREST")) {
                 return false;
             }
         }
         return true;
     }
 
-    private Vertex getNextVertex(Graph graph, float[] distances) {
+    private GraphNode getNextVertex(Graph graph, float[] distances) {
         float minDistance = Float.MAX_VALUE;
         int vertexID = 0;
 

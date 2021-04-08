@@ -23,4 +23,8 @@ public class GraphNode {
     public String getType() {
         return type;
     }
+
+    public static String toString(GraphNode node) {
+        return "(location: " + node.name + " {type: " + node.type + "})";
+    }
 }

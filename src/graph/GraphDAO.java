@@ -24,8 +24,8 @@ public class GraphDAO {
         return graphNodeList;
     }
 
-    public static List<Edge> parseEdge() throws IOException {
-        List<Edge> edgeList = new ArrayList<>();
+    public static List<GraphEdge> parseEdge() throws IOException {
+        List<GraphEdge> graphEdgeList = new ArrayList<>();
 
         File file = new File(PATH);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -39,10 +39,10 @@ public class GraphDAO {
         counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            edgeList.add(new Edge(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
+            graphEdgeList.add(new GraphEdge(Integer.parseInt(info[0]), Integer.parseInt(info[1]), Float.parseFloat(info[2])));
         }
 
         bufferedReader.close();
-        return edgeList;
+        return graphEdgeList;
     }
 }

@@ -10,16 +10,16 @@ public class Graph {
     private int[] mapping;
     private int numNodes;
 
-    private final List<Edge> edgeList;
+    private final List<GraphEdge> graphEdgeList;
     private final List<GraphNode> graphNodeList;
 
     public Graph() {
-        edgeList = new ArrayList<>();
+        graphEdgeList = new ArrayList<>();
         graphNodeList = new ArrayList<>();
     }
 
-    public Graph(List<Edge> edgeList, List<GraphNode> graphNodeList) {
-        this.edgeList = new ArrayList<>(edgeList);
+    public Graph(List<GraphEdge> graphEdgeList, List<GraphNode> graphNodeList) {
+        this.graphEdgeList = new ArrayList<>(graphEdgeList);
         this.graphNodeList = new ArrayList<>(graphNodeList);
 
         this.adjacentMatrix = new float[graphNodeList.size()][graphNodeList.size()];
@@ -29,8 +29,8 @@ public class Graph {
         setMapping();
     }
 
-    public List<Edge> getEdgeList() {
-        return edgeList;
+    public List<GraphEdge> getEdgeList() {
+        return graphEdgeList;
     }
 
     public int getNumNodes() {
@@ -53,28 +53,28 @@ public class Graph {
         return mapping;
     }
 
-    public GraphNode getVertex(int vertexID) {
-        return graphNodeList.get(mapping[vertexID]);
+    public GraphNode getNode(int nodeID) {
+        return graphNodeList.get(mapping[nodeID]);
     }
 
-    public GraphNode getUnmappedVertex(int vertexID) {
-        return graphNodeList.get(vertexID);
+    public GraphNode getUnmappedVertex(int nodeID) {
+        return graphNodeList.get(nodeID);
     }
 
-    public boolean isVertex(int vertexID) {
-        return mapping[vertexID] != -1;
+    public boolean isNode(int nodeID) {
+        return mapping[nodeID] != -1;
     }
 
-    public boolean isPointOfInterest(int vertexID) {
-        return getVertex(vertexID).getType().equals("INTEREST");
+    public boolean isPointOfInterest(int nodeID) {
+        return getNode(nodeID).getType().equals("INTEREST");
     }
 
-    public boolean isDangerousPlace(int vertexID) {
-        return getVertex(vertexID).getType().equals("DANGER");
+    public boolean isDangerousPlace(int nodeID) {
+        return getNode(nodeID).getType().equals("DANGER");
     }
 
-    public boolean isVertexDisconnected(int vertexID) {
-        return getAdjacentVertices(getVertex(vertexID)).size() == 0;
+    public boolean isVertexDisconnected(int nodeID) {
+        return getAdjacentVertices(getNode(nodeID)).size() == 0;
     }
 
     private void fillWithZeros() {
@@ -93,9 +93,9 @@ public class Graph {
     }
 
     public void initGraph() {
-        for (Edge edge : edgeList) {
-            addEdge(edge.getVertexA(), edge.getVertexB(), edge.getWeight());
-            addEdge(edge.getVertexB(), edge.getVertexA(), edge.getWeight());
+        for (GraphEdge graphEdge : graphEdgeList) {
+            addEdge(graphEdge.getVertexA(), graphEdge.getVertexB(), graphEdge.getWeight());
+            addEdge(graphEdge.getVertexB(), graphEdge.getVertexA(), graphEdge.getWeight());
         }
     }
 

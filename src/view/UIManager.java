@@ -81,11 +81,11 @@ public class UIManager {
     /**
      * Shows the trees menu on the console and requests an option to the user.
      *
-     * @return the option entered by the user in form of a value from the enumeration view.menus.TreesMenuOptions.
+     * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
-     * @see BTreesMenuOptions
+     * @see BTreeMenuOptions
      */
-    public BTreesMenuOptions displayTreesMenu() throws InvalidInputException {
+    public BTreeMenuOptions displayBinaryTreeMenu() throws InvalidInputException {
         System.out.println("\tA. Add treasure");
         System.out.println("\tB. Remove treasure");
         System.out.println("\tC. List loot");
@@ -96,15 +96,40 @@ public class UIManager {
         String option = askString("What functionality do you want to run? ");
 
         return switch (option) {
-            case "A" -> BTreesMenuOptions.ADD;
-            case "B" -> BTreesMenuOptions.REMOVE;
-            case "C" -> BTreesMenuOptions.LIST;
-            case "D" -> BTreesMenuOptions.EXACT;
-            case "E" -> BTreesMenuOptions.RANGE;
-            case "F" -> BTreesMenuOptions.BACK;
+            case "A" -> BTreeMenuOptions.ADD;
+            case "B" -> BTreeMenuOptions.REMOVE;
+            case "C" -> BTreeMenuOptions.LIST;
+            case "D" -> BTreeMenuOptions.EXACT;
+            case "E" -> BTreeMenuOptions.RANGE;
+            case "F" -> BTreeMenuOptions.BACK;
             default -> throw new InvalidInputException(option);
         };
     }
+
+    /**
+     * Shows the trees traversal menu on the console and requests an option to the user.
+     *
+     * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
+     * @throws InvalidInputException if the user input is invalid.
+     * @see BTreeTraversalMenuOptions
+     */
+    public BTreeTraversalMenuOptions displayBTreeTraversalMenu() throws InvalidInputException {
+        System.out.println("\tI. Preorder");
+        System.out.println("\tII. Postorder");
+        System.out.println("\tIII. Inorder");
+        System.out.println("\tIV. By level\n");
+
+        String option = askString("Pick a traversal: ");
+
+        return switch (option) {
+            case "I" -> BTreeTraversalMenuOptions.PREORDER;
+            case "II" -> BTreeTraversalMenuOptions.POSTORDER;
+            case "III" -> BTreeTraversalMenuOptions.INORDER;
+            case "IV" -> BTreeTraversalMenuOptions.LEVEL;
+            default -> throw new InvalidInputException(option);
+        };
+    }
+
 
     /**
      * Shows a message on the screen and requests the user to input a String.
@@ -126,6 +151,17 @@ public class UIManager {
      */
     public int askInteger(String message) throws NumberFormatException {
         return Integer.parseInt(askString(message));
+    }
+
+    /**
+     * Shows a message on the screen and requests the user to input an long.
+     *
+     * @param message the message to show on the screen.
+     * @return the user's input in form of an long.
+     * @throws NumberFormatException if user input is not a number.
+     */
+    public long askLong(String message) throws NumberFormatException {
+        return Long.parseLong(askString(message));
     }
 
     /**

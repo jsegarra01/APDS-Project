@@ -1,12 +1,12 @@
 package graph;
 
-public class Edge {
+public class GraphEdge {
 
     private final int vertexA;
     private final int vertexB;
     private final float weight;
 
-    public Edge(int vertexA, int vertexB, float weight) {
+    public GraphEdge(int vertexA, int vertexB, float weight) {
         this.vertexA = vertexA;
         this.vertexB = vertexB;
         this.weight = weight;
@@ -22,5 +22,9 @@ public class Edge {
 
     public float getWeight() {
         return weight;
+    }
+
+    public static String toString(GraphEdge graphEdge) {
+        return "(" + graphEdge.vertexA + ") --[" + graphEdge.weight + "]--> (" + graphEdge.vertexB + ")";
     }
 }

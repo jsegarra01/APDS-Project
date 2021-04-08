@@ -1,24 +1,78 @@
 package trees.binary;
 
-import static java.lang.StrictMath.abs;
+import trees.Tree;
 
-public class BinaryTree {
+public class BinaryTree implements Tree<BinaryNode, Long> {
 
     private BinaryNode root;
 
+    public BinaryNode getRoot() {
+        return root;
+    }
+
+    @Override
+    public BinaryNode searchMinimum() {
+        return searchMinimum(root);
+    }
+
+    private BinaryNode searchMinimum(BinaryNode node) {
+        return (node.getLeftChild() == null) ? node : searchMinimum(node.getLeftChild());
+    }
+
+    @Override
+    public BinaryNode searchMaximum() {
+        return searchMaximum(root);
+    }
+
+    private BinaryNode searchMaximum(BinaryNode node) {
+        return (node.getRightChild() == null) ? node : searchMaximum(node.getRightChild());
+    }
+
+    @Override
+    public BinaryNode searchSuccessor(BinaryNode node) {
+        if (node.getRightChild() != null) {
+            return searchMinimum(node.getRightChild());
+        }
+
+        BinaryNode successor = node.getParent();
+        while (node == successor.getRightChild()) {
+            node = successor;
+            successor = successor.getParent();
+        }
+
+        return successor;
+    }
+
+    @Override
+    public BinaryNode searchPredecessor(BinaryNode node) {
+        if (node.getLeftChild() != null) {
+            return searchMinimum(node.getLeftChild());
+        }
+
+        BinaryNode successor = node.getParent();
+        while (node == successor.getLeftChild()) {
+            node = successor;
+            successor = successor.getParent();
+        }
+
+        return successor;
+    }
+
+    @Override
     public void addNode(BinaryNode newNode) {
         if (root == null) {
             root = newNode;
-        } else {
-            add(root, newNode);
+            return;
         }
+
+        add(root, newNode);
     }
 
     private void add(BinaryNode node, BinaryNode newNode) {
         // Left node
         if (newNode.getValue() < node.getValue()) {
-            // Leaf node
             if (node.getLeftChild() == null) {
+                // Leaf node
                 newNode.setParent(node);
                 node.setLeftChild(newNode);
             } else {
@@ -27,8 +81,8 @@ public class BinaryTree {
         }
         // Right node
         else if (newNode.getValue() > node.getValue()) {
-            // Leaf node
             if (node.getRightChild() == null) {
+                // Leaf node
                 newNode.setParent(node);
                 node.setRightChild(newNode);
             }
@@ -38,135 +92,126 @@ public class BinaryTree {
         }
     }
 
-    public void removeNode(String nodeName){
-            //we will have to find the node we want to delete
-        BinaryNode node = null; //Temporary representation of our node
-        BinaryNode auxNode; //Node that allows us to only affect the parent when it is not the root
-        
-        //Adapt the find closest value without affecting the parent
-        if(node.getParent() == null){
-            root = childConcatenance(node);
-            root.setParent(null);
-        }
-        else{
-            auxNode = childConcatenance(node);
-            setChild(node, auxNode);
-        }
-        
+    @Override
+    public void removeNode(BinaryNode node) {
+        root = remove(root, node.getValue());
     }
 
-    private BinaryNode childConcatenance(BinaryNode node){
-        BinaryNode auxNode;
+    private BinaryNode remove(BinaryNode node, long value) {
+        if (node == null) {
+            return null;
+        }
 
+        if (value == node.getValue()) {
+            return removeCases(node);
+        }
+
+        if (value < node.getValue()) {
+            node.setLeftChild(remove(node.getLeftChild(), value));
+        }
+        else {
+            node.setRightChild(remove(node.getRightChild(), value));
+        }
+        return node;
+    }
+
+    private BinaryNode removeCases(BinaryNode node) {
+        // Leaf node (no children)
         if (node.getLeftChild() == null && node.getRightChild() == null) {
             return null;
         }
-        if (node.getRightChild() == null) {
-            auxNode = findClosestValueLeft(node.getLeftChild());
-            setChild(auxNode, auxNode.getLeftChild());
-        }
-        else{
-            auxNode = findClosestValueRight(node.getRightChild());
-            setChild(auxNode, auxNode.getRightChild());
-        }
-        auxNode.setRightChild(node.getRightChild());
-        auxNode.setLeftChild(node.getLeftChild());
-        
-        return auxNode;
-    }
-
-    private BinaryNode findClosestValueRight(BinaryNode root) {
-        return root.getLeftChild() == null ? root : findClosestValueRight(root.getLeftChild());
-    }
-    private BinaryNode findClosestValueLeft(BinaryNode root) {
-        return root.getRightChild() == null ? root : findClosestValueLeft(root.getRightChild());
-    }
-
-    private void setChild(BinaryNode root, BinaryNode node){
-        if(root.getParent().getRightChild() == root){
-            root.getParent().setRightChild(node);
-        }
-        else{
-            root.getParent().setLeftChild(node);
-        }
-        node.setParent(root.getParent());
-    }
-
-    private void balance(BinaryNode newNode){
-        int bf = getBalanceFactor(newNode.getParent());
-        int bfParent = getBalanceFactor(newNode.getParent().getParent());
-
-        if(bf == 1 && bfParent == -2){
-            leftRotate(newNode.getParent().getParent());
-        }
-        if(bf == -1 && bfParent == 2){
-            rightRotate(newNode.getParent().getParent());
-        }
-        if(bfParent == 2){
-            leftRotate(newNode.getParent().getParent());
-        }
-        if(bfParent == -2){
-            rightRotate(newNode.getParent().getParent());
-        }
-
-    }
-
-    private void rightRotate(BinaryNode node){
-        BinaryNode B = node.getLeftChild();
-        BinaryNode P = node.getParent();
-
-        node.setLeftChild(B.getRightChild());
-        if(B.getRightChild() != null){
-            B.getRightChild().setParent(node);
-        }
-        B.setRightChild(node);
-        node.setParent(B);
-        B.setParent(P);
-        if(P != null){
-            if(P.getLeftChild() == node){
-                P.setLeftChild(B);
+        // Node has only one child
+        else if (node.getLeftChild() == null || node.getRightChild() == null) {
+            // Right child
+            if (node.getLeftChild() == null) {
+                node.getRightChild().setParent(node.getParent());
+                return node.getRightChild();
             }
-            else{
-                P.setRightChild(B);
-            }
+            // Left child
+            node.getLeftChild().setParent(node.getParent());
+            return node.getLeftChild();
+        }
+        // Node has both children
+        else {
+            // Find next inorder successor
+            BinaryNode successor = searchSuccessor(node);
+
+            // Replace it with the node to be removed
+            node.setName(successor.getName());
+            node.setValue(successor.getValue());
+
+            // Remove replaced node
+            node.setRightChild(remove(node.getRightChild(), successor.getValue()));
+            return node;
         }
     }
 
-    private void leftRotate(BinaryNode node){
-        BinaryNode B = node.getRightChild();
-        BinaryNode P = node.getParent();
+    @Override
+    public BinaryNode searchNode(Long value) {
+        return searchByValue(root, value);
+    }
 
-        node.setRightChild(B.getLeftChild());
-        if(B.getLeftChild() != null){
-            B.getLeftChild().setParent(node);
+    private BinaryNode searchByValue(BinaryNode node, long value) {
+        if (node == null) {
+            return null;
         }
-        B.setLeftChild(node);
-        node.setParent(B);
-        B.setParent(P);
-        if(P != null){
-            if(P.getRightChild() == node){
-                P.setRightChild(B);
+
+        if (value == node.getValue()) {
+            return node;
+        }
+
+        return (value < node.getValue()) ?
+                searchByValue(node.getLeftChild(), value) : searchByValue(node.getRightChild(), value);
+    }
+
+    public BinaryNode searchNode(String name) {
+        return searchByName(root, name);
+    }
+
+    private BinaryNode searchByName(BinaryNode node, String name) {
+        if (node == null) {
+            return null;
+        }
+
+        if (name.equals(node.getName())) {
+            return node;
+        }
+
+        BinaryNode tmp = searchByName(node.getLeftChild(), name);
+        if (tmp == null) {
+            tmp = searchByName(node.getRightChild(), name);
+        }
+        return tmp;
+    }
+
+    public void searchNodes(long lowerBound, long upperBound) {
+        System.out.println(countValuesInRange(root, lowerBound, upperBound) + " treasures were found in this range:\n");
+        searchByRange(root, lowerBound, upperBound);
+    }
+
+    private int countValuesInRange(BinaryNode node, long lowerBound, long upperBound) {
+        if (node != null) {
+            int countLeft = countValuesInRange(node.getLeftChild(), lowerBound, upperBound);
+            int countRight = countValuesInRange(node.getRightChild(), lowerBound, upperBound);
+
+            if (node.getValue() >= lowerBound && node.getValue() <= upperBound) {
+                return countLeft + countRight + 1;
             }
-            else{
-                P.setLeftChild(B);
+            else {
+                return countLeft + countRight;
             }
         }
+        return 0;
     }
 
-    private int getBalanceFactor(BinaryNode node){
-        return getNodeHeight(node.getRightChild()) - getNodeHeight(node.getLeftChild());
-    }
-
-    private int getNodeHeight(BinaryNode node){
-        int leftHeight, rightHeight;
-
-        if(node.getRightChild() == null && node.getLeftChild() == null){
-            return 0;
+    private void searchByRange(BinaryNode node, long lowerBound, long upperBound) {
+        if (node != null) {
+            searchByRange(node.getLeftChild(), lowerBound, upperBound);
+            if (node.getValue() >= lowerBound && node.getValue() <= upperBound) {
+                System.out.println("\t" + BinaryNode.toString(node));
+            }
+            searchByRange(node.getRightChild(), lowerBound, upperBound);
         }
-        leftHeight = getNodeHeight(node.getLeftChild());
-        rightHeight = getNodeHeight(node.getRightChild());
-
-        return Math.max(leftHeight, rightHeight) + 1;
     }
 
 }

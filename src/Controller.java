@@ -1,22 +1,28 @@
 import graph.GraphManager;
-
 import trees.TreesManager;
+import static trees.TreesManager.*;
+
 import view.*;
 import view.menus.*;
 
 public class Controller {
 
+    // Managers
     private final GraphManager graphManager;
     private final TreesManager treesManager;
     private final UIManager UI;
 
-    private static final int GENERAL_MENU_ID = 1;
-    private static final int GRAPHS_MENU_ID = 2;
-    private static final int BINARY_TREES_MENU_ID = 3;
+    // Menu's IDs
+    private static final int GENERAL_ID = 1;
+    private static final int GRAPHS_ID = 2;
+    private static final int BINARY_TREE_ID = 3;
+    private static final int BINARY_TREE_TRAVERSAL_ID = 4;
 
+    // Menu's options
     private GeneralMenuOptions generalOption;
     private GraphMenuOptions graphOption;
-    private BTreesMenuOptions binaryTreesOption;
+    private BTreeMenuOptions binaryTreeOption;
+    private BTreeTraversalMenuOptions binaryTreeTraversalOption;
 
     public Controller(GraphManager graphManager, TreesManager treesManager) {
         this.graphManager = graphManager;
@@ -30,7 +36,8 @@ public class Controller {
             switch (menuID) {
                 case 1 -> generalOption = UI.displayGeneralMenu();
                 case 2 -> graphOption = UI.displayGraphMenu();
-                case 3 -> binaryTreesOption = UI.displayTreesMenu();
+                case 3 -> binaryTreeOption = UI.displayBinaryTreeMenu();
+                case 4 -> binaryTreeTraversalOption = UI.displayBTreeTraversalMenu();
             }
             UI.displayMessage("");
         }
@@ -40,9 +47,13 @@ public class Controller {
         }
     }
 
+    // ---------------------------------------------------------------------------------
+    // GENERAL MENU
+    // ---------------------------------------------------------------------------------
+
     public void run() {
         do {
-            getOption(GENERAL_MENU_ID);
+            getOption(GENERAL_ID);
 
             switch (generalOption) {
                 case GRAPHS -> runRoute();
@@ -61,7 +72,7 @@ public class Controller {
 
     private void runRoute() {
         do {
-            getOption(GRAPHS_MENU_ID);
+            getOption(GRAPHS_ID);
 
             switch (graphOption) {
                 case DFS -> showPointsOfInterest();
@@ -73,20 +84,20 @@ public class Controller {
         } while (graphOption != GraphMenuOptions.BACK);
     }
 
-    private int askGraphNodeID(String node, boolean checkType, boolean type) {
+    private int askGraphNodeID(String node, final boolean checkType, final boolean isPointOfInterest) {
         int nodeID;
 
         while (true) {
             try {
                 nodeID = UI.askInteger("Enter the " + node + " node's identifier: ");
-                if (graphManager.validateVertex(nodeID)) {
+                if (graphManager.validateNode(nodeID)) {
                     if (checkType) {
-                        if (type) {
+                        if (isPointOfInterest) {
                             if (graphManager.validatePointOfInterest(nodeID)) {
                                 break;
                             }
                             else {
-                                UI.displayError("The specified ID does not correspond not a point of interest");
+                                UI.displayError("The specified ID does not correspond to a point of interest");
                             }
                         }
                         else {
@@ -94,7 +105,7 @@ public class Controller {
                                 break;
                             }
                             else {
-                                UI.displayError("The specified ID does not correspond not a dangerous place");
+                                UI.displayError("The specified ID does not correspond to a dangerous place");
                             }
                         }
                     }
@@ -155,40 +166,98 @@ public class Controller {
 
     private void runInventory() {
         do {
-            getOption(BINARY_TREES_MENU_ID);
+            getOption(BINARY_TREE_ID);
 
-            switch (binaryTreesOption) {
+            switch (binaryTreeOption) {
                 case ADD -> addTreasure();
                 case REMOVE -> removeTreasure();
                 case LIST -> listLoot();
-                case EXACT -> searchByExactValue();
-                case RANGE -> searchByRangeValue();
+                case EXACT -> searchByValue();
+                case RANGE -> searchByRange();
             }
 
-        } while (binaryTreesOption != BTreesMenuOptions.BACK);
+        } while (binaryTreeOption != BTreeMenuOptions.BACK);
     }
 
     private void addTreasure() {
+        long nodeValue;
+        String nodeName;
+
+        // TODO: validate name/value
+        nodeName = UI.askString("Enter the treasure's name: ");
+        nodeValue = UI.askLong("Enter the treasure's value: ");
+
+        treesManager.addBinaryNode(nodeName, nodeValue);
+
+        UI.displayMessage("");
+        UI.displayMessage("The treasure was correctly added to the loot.");
+        UI.displayMessage("");
     }
 
     private void removeTreasure() {
+        String nodeName;
 
+        // TODO: validate name
+        nodeName = UI.askString("Enter the treasure's name: ");
+
+        treesManager.removeBinaryNode(nodeName);
+
+        UI.displayMessage("");
+        UI.displayMessage("The treasure was correctly removed from the loot.");
+        UI.displayMessage("");
     }
 
     private void listLoot() {
+        getOption(BINARY_TREE_TRAVERSAL_ID);
 
+        switch (binaryTreeTraversalOption) {
+            case PREORDER -> treesManager.listLoot(PREORDER_TRAVERSAL_ID);
+            case POSTORDER -> treesManager.listLoot(POSTORDER_TRAVERSAL_ID);
+            case INORDER -> treesManager.listLoot(INORDER_TRAVERSAL_ID);
+            case LEVEL -> treesManager.listLoot(BY_LEVEL_TRAVERSAL_ID);
+        }
+        UI.displayMessage("");
     }
 
-    private void searchByExactValue() {
+    private void searchByValue() {
+        long nodeValue;
+        String nodeName;
 
+        nodeValue = UI.askLong("Enter the value to search for: ");
+        nodeName = treesManager.searchByValue(nodeValue);
+
+        UI.displayMessage("");
+        if ((nodeName == null)) {
+            UI.displayMessage("No treasure with this value was found!");
+        } else {
+            UI.displayMessage("A treasure with this value was found: " + nodeName);
+        }
+        UI.displayMessage("");
     }
 
-    private void searchByRangeValue() {
+    private void searchByRange() {
+        long lowerBoundValue;
+        long upperBoundValue;
 
+        // TODO: validate lowerBound < upperBound
+        lowerBoundValue = UI.askLong("Enter the minimum value to search for: ");
+        upperBoundValue = UI.askLong("Enter the maximum value to search for: ");
+
+        UI.displayMessage("");
+        treesManager.searchByRange(lowerBoundValue, upperBoundValue);
+        UI.displayMessage("");
     }
+
+    // ---------------------------------------------------------------------------------
+    // R TREES
+    // ---------------------------------------------------------------------------------
 
     private void runDeck() {
     }
+
+    // ---------------------------------------------------------------------------------
+    // TABLES
+    // ---------------------------------------------------------------------------------
 
     private void runCrew() {
     }

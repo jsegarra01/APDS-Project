@@ -1,6 +1,6 @@
 package view.menus;
 
-public enum BTreesMenuOptions {
+public enum BTreeMenuOptions {
     ADD,
     REMOVE,
     LIST,

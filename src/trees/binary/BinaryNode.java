@@ -2,8 +2,8 @@ package trees.binary;
 
 public class BinaryNode {
 
-    private final String name;
-    private final long value;
+    private String name;
+    private long value;
 
     private BinaryNode parent;
     private BinaryNode leftChild;
@@ -22,8 +22,16 @@ public class BinaryNode {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getValue() {
         return value;
+    }
+
+    public void setValue(long value) {
+        this.value = value;
     }
 
     public BinaryNode getParent() {
@@ -50,5 +58,10 @@ public class BinaryNode {
         this.rightChild = rightChild;
     }
 
-
+    public static String toString(BinaryNode node) {
+        return  node.name
+                + " - "
+                + String.format("%,d", node.value).replace(',', '.')
+                + " doubloons";
+    }
 }

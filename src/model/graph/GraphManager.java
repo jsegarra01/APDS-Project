@@ -1,4 +1,4 @@
-package graph;
+package model.graph;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +16,7 @@ public class GraphManager {
     }
 
     public boolean validateNode(int nodeID) {
-        return graph.isNode(nodeID) && !graph.isVertexDisconnected(nodeID);
+        return graph.isNode(nodeID) && !graph.isNodeDisconnected(nodeID);
     }
 
     public boolean validatePointOfInterest(int vertexID) {

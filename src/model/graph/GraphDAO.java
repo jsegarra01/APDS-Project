@@ -1,4 +1,4 @@
-package graph;
+package model.graph;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,14 +1,14 @@
-package trees;
+package model.trees;
 
-import trees.binary.*;
+import model.trees.binary.*;
 
 import java.io.IOException;
 import java.util.List;
 
 public class TreesManager {
 
-    private final BinaryTree binaryTree;
-    private final BinaryTraversal binaryTraversal;
+    private final BinarySearchTree<Long> binaryTree;
+    private final BinarySearchTreeTraversal<Long> binaryTraversal;
 
     public static final int PREORDER_TRAVERSAL_ID = 0;
     public static final int POSTORDER_TRAVERSAL_ID = 1;
@@ -16,8 +16,8 @@ public class TreesManager {
     public static final int BY_LEVEL_TRAVERSAL_ID = 3;
 
     public TreesManager () throws IOException{
-        binaryTree = new BinaryTree();
-        binaryTraversal = new BinaryTraversal();
+        binaryTree = new BinarySearchTree<>();
+        binaryTraversal = new BinarySearchTreeTraversal<>();
 
         initBinaryTree();
     }
@@ -27,23 +27,23 @@ public class TreesManager {
     // ---------------------------------------------------------------------------------
 
     private void initBinaryTree() throws IOException {
-        List<BinaryNode> nodeList = BinaryTreeDAO.parseNodes();
+        List<BinaryNode<Long>> nodeList = BinarySearchTreeDAO.parseNodes();
 
-        for (BinaryNode node : nodeList) {
-            binaryTree.addNode(node);
+        for (BinaryNode<Long> node : nodeList) {
+            binaryTree.insert(node);
         }
     }
 
-    public void addBinaryNode(String binaryNodeName, long binaryNodeValue) {
-        binaryTree.addNode(new BinaryNode(binaryNodeName, binaryNodeValue));
+    public void addBinaryNode(String name, long key) {
+        binaryTree.insert(new BinaryNode<>(key, name));
     }
 
     public void removeBinaryNode(String binaryNodeName) {
-        binaryTree.removeNode(binaryTree.searchNode(binaryNodeName));
+        binaryTree.delete(binaryTree.search(binaryNodeName));
     }
 
-    public void listLoot(int searchID) {
-        switch (searchID) {
+    public void listLoot(int traversalID) {
+        switch (traversalID) {
             case PREORDER_TRAVERSAL_ID -> binaryTraversal.preOrderTraversal(binaryTree);
             case POSTORDER_TRAVERSAL_ID -> binaryTraversal.postOrderTraversal(binaryTree);
             case INORDER_TRAVERSAL_ID -> binaryTraversal.inOrderTraversal(binaryTree);
@@ -51,13 +51,17 @@ public class TreesManager {
         }
     }
 
-    public String searchByValue(long value) {
-        BinaryNode node = binaryTree.searchNode(value);
+    public String searchByValue(long key) {
+        BinaryNode<Long> node = (BinaryNode<Long>) binaryTree.search(key);
         return (node == null) ? null : node.getName();
     }
 
-    public void searchByRange(long lowerBound, long upperBound) {
-        binaryTree.searchNodes(lowerBound, upperBound);
+    public void searchByRange(long minimum, long maximum) {
+        binaryTree.rangeSearch(minimum, maximum);
+    }
+
+    public void printTree() {
+        binaryTree.printTree();
     }
 
     // ---------------------------------------------------------------------------------

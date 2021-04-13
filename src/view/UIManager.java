@@ -35,8 +35,8 @@ public class UIManager {
 
         System.out.println("-= Pirates of the Mediterranean =-\n");
         System.out.println("1. Routes (Graphs)");
-        System.out.println("2. Inventory (Binary trees)");
-        System.out.println("3. Deck (R trees)");
+        System.out.println("2. Inventory (Binary model.trees)");
+        System.out.println("3. Deck (R model.trees)");
         System.out.println("4. Crew (Tables)\n");
         System.out.println("5. Exit\n");
 
@@ -79,7 +79,7 @@ public class UIManager {
     }
 
     /**
-     * Shows the trees menu on the console and requests an option to the user.
+     * Shows the model.trees menu on the console and requests an option to the user.
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
@@ -107,7 +107,7 @@ public class UIManager {
     }
 
     /**
-     * Shows the trees traversal menu on the console and requests an option to the user.
+     * Shows the model.trees traversal menu on the console and requests an option to the user.
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
      * @throws InvalidInputException if the user input is invalid.

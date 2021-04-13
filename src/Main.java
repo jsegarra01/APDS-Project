@@ -1,5 +1,5 @@
-import graph.GraphManager;
-import trees.TreesManager;
+import model.graph.*;
+import model.trees.*;
 
 import java.io.IOException;
 

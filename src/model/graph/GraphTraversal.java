@@ -1,4 +1,4 @@
-package graph;
+package model.graph;
 
 import java.util.*;
 import java.util.List;

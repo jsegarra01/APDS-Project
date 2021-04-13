@@ -1,7 +1,5 @@
-import graph.GraphManager;
-import trees.TreesManager;
-import static trees.TreesManager.*;
-
+import model.graph.GraphManager;
+import model.trees.TreesManager;
 import view.*;
 import view.menus.*;
 
@@ -211,10 +209,10 @@ public class Controller {
         getOption(BINARY_TREE_TRAVERSAL_ID);
 
         switch (binaryTreeTraversalOption) {
-            case PREORDER -> treesManager.listLoot(PREORDER_TRAVERSAL_ID);
-            case POSTORDER -> treesManager.listLoot(POSTORDER_TRAVERSAL_ID);
-            case INORDER -> treesManager.listLoot(INORDER_TRAVERSAL_ID);
-            case LEVEL -> treesManager.listLoot(BY_LEVEL_TRAVERSAL_ID);
+            case PREORDER -> treesManager.listLoot(TreesManager.PREORDER_TRAVERSAL_ID);
+            case POSTORDER -> treesManager.listLoot(TreesManager.POSTORDER_TRAVERSAL_ID);
+            case INORDER -> treesManager.listLoot(TreesManager.INORDER_TRAVERSAL_ID);
+            case LEVEL -> treesManager.listLoot(TreesManager.BY_LEVEL_TRAVERSAL_ID);
         }
         UI.displayMessage("");
     }

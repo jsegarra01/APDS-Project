@@ -1,4 +1,4 @@
-package graph;
+package model.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +73,7 @@ public class Graph {
         return getNode(nodeID).getType().equals("DANGER");
     }
 
-    public boolean isVertexDisconnected(int nodeID) {
+    public boolean isNodeDisconnected(int nodeID) {
         return getAdjacentVertices(getNode(nodeID)).size() == 0;
     }
 
@@ -99,11 +99,11 @@ public class Graph {
         }
     }
 
-    public void addEdge(int vertexA, int vertexB, float weight) {
+    public void addEdge(int vertexA, int vertexB, Float weight) {
         adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = weight;
     }
 
-    public float getEdgeWeight(GraphNode A, GraphNode B) {
+    public Float getEdgeWeight(GraphNode A, GraphNode B) {
         return adjacentMatrix[mapping[A.getId()]][mapping[B.getId()]];
     }
 

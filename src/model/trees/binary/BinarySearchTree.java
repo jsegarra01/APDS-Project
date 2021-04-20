@@ -1,9 +1,6 @@
 package model.trees.binary;
 
-import model.trees.*;
-import model.Node;
-
-public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<T> {
+public class BinarySearchTree<T extends Comparable<T>> implements BinaryTreeInterface<T> {
 
     protected BinaryNode<T> root;
 
@@ -16,11 +13,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     }
 
     @Override
-    public void insert(Node<T> node) {
-        insert((BinaryNode<T>) node);
-    }
-
-    private void insert(BinaryNode<T> node) {
+    public void insert(BinaryNode<T> node) {
         BinaryNode<T> parent = null;
         BinaryNode<T> aux = root;
 
@@ -97,11 +90,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     //  |-------------------------------------------------------------|
 
     @Override
-    public void delete(Node<T> node) {
-        delete((BinaryNode<T>) node);
-    }
+    public void delete(BinaryNode<T> node) {
 
-    private void delete (BinaryNode<T> node) {
         if (node.getLeft() == null) {
             // Node has only right child
             transplant(node, node.getRight());
@@ -143,7 +133,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     }
 
     @Override
-    public Node<T> search(T key) {
+    public BinaryNode<T> search(T key) {
         return searchByValue(root, key);
     }
 
@@ -160,7 +150,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
                 searchByValue(node.getLeft(), key) : searchByValue(node.getRight(), key);
     }
 
-    public Node<T> search(String name) {
+    public BinaryNode<T> search(String name) {
         return searchByName(root, name);
     }
 
@@ -229,7 +219,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     }
 
     @Override
-    public Node<T> min() {
+    public BinaryNode<T> min() {
         return searchMinimum(root);
     }
 
@@ -238,7 +228,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     }
 
     @Override
-    public Node<T> max() {
+    public BinaryNode<T> max() {
         return searchMaximum(root);
     }
 
@@ -248,11 +238,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
 
 
     @Override
-    public Node<T> predecessor(Node<T> node) {
-        return predecessor((BinaryNode<T>) node);
-    }
+    public BinaryNode<T> predecessor(BinaryNode<T> node) {
 
-    private BinaryNode<T> predecessor(BinaryNode<T> node) {
         if (node.getLeft() != null) {
             return searchMinimum(node.getLeft());
         }
@@ -267,11 +254,8 @@ public class BinarySearchTree<T extends Comparable<T>> implements TreeInterface<
     }
 
     @Override
-    public Node<T> successor(Node<T> node) {
-        return successor((BinaryNode<T>) node);
-    }
+    public BinaryNode<T> successor(BinaryNode<T> node) {
 
-    private BinaryNode<T> successor(BinaryNode<T> node) {
         if (node.getRight() != null) {
             return searchMinimum(node.getRight());
         }

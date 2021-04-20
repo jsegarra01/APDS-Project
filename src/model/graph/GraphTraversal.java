@@ -92,7 +92,7 @@ public class GraphTraversal {
 
         for (GraphNode graphNode : vertices) {
             for (GraphNode adjacent : graph.getAdjacentVertices(graphNode)) {
-                adjacentWeight = graph.getEdgeWeight(graphNode, adjacent);
+                adjacentWeight = graph.getWeight(graphNode, adjacent);
                 if (!visited[mapping[adjacent.getId()]] && adjacentWeight < minWeight) {
                     minGraphEdge = new GraphEdge(graphNode.getId(), adjacent.getId(), adjacentWeight);
                     minWeight = adjacentWeight;
@@ -121,7 +121,7 @@ public class GraphTraversal {
             for (GraphNode adjacent : adjacents) {
                 // Second condition modifies Dijkstra to avoid dangerous places unless there is no other choice
                 if (!visited[mapping[adjacent.getId()]] && (allDanger || !adjacent.getType().equals("DANGER"))) {
-                    newAdjacentWeight = distances[mapping[current.getId()]] + graph.getEdgeWeight(current, adjacent);
+                    newAdjacentWeight = distances[mapping[current.getId()]] + graph.getWeight(current, adjacent);
                     if (distances[mapping[adjacent.getId()]] > newAdjacentWeight) {
                         distances[mapping[adjacent.getId()]] = newAdjacentWeight;
                         parents[mapping[adjacent.getId()]] = current.getId();
@@ -156,7 +156,7 @@ public class GraphTraversal {
             }
         }
 
-        return graph.getUnmappedVertex(vertexID);
+        return graph.getUnmappedNode(vertexID);
     }
 
     private List<Integer> getPath(List<Integer> path, int[] parent, int destination, int position){

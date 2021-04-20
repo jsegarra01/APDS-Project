@@ -1,9 +1,6 @@
 package model.trees.binary;
 
-public class AVLNode<T> extends BinaryNode<T> {
-
-    // TODO: declare height member and define getter and setter
-    // TODO: Override some methods
+public class AVLNode<T extends Comparable<T>> extends BinaryNode<T> {
 
     private int height;
     private int balanceFactor;

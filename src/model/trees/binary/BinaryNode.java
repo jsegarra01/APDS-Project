@@ -1,9 +1,8 @@
 package model.trees.binary;
 
-import model.Node;
+public class BinaryNode<T extends Comparable<T>> {
 
-public class BinaryNode<T> extends Node<T> {
-
+    protected final T key;
     private final String name;
 
     private BinaryNode<T> left;
@@ -11,15 +10,17 @@ public class BinaryNode<T> extends Node<T> {
     private BinaryNode<T> parent;
 
     public BinaryNode(T key, String name) {
-        super(key);
-
+        this.key = key;
         this.name = name;
     }
 
     public BinaryNode() {
-        super();
-
+        this.key = null;
         this.name = null;
+    }
+
+    public T getKey() {
+        return key;
     }
 
     public String getName() {

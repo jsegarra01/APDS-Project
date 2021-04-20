@@ -35,8 +35,8 @@ public class UIManager {
 
         System.out.println("-= Pirates of the Mediterranean =-\n");
         System.out.println("1. Routes (Graphs)");
-        System.out.println("2. Inventory (Binary model.trees)");
-        System.out.println("3. Deck (R model.trees)");
+        System.out.println("2. Inventory (Binary Trees)");
+        System.out.println("3. Deck (R Trees)");
         System.out.println("4. Crew (Tables)\n");
         System.out.println("5. Exit\n");
 

@@ -9,10 +9,20 @@ public class GraphManager {
     private final GraphTraversal graphTraversal;
 
     public GraphManager() throws IOException {
-        graph = new Graph(GraphDAO.parseEdge(), GraphDAO.parseNodes());
+        List<GraphNode> graphNodes = GraphDAO.parseNodes();
+        List<GraphEdge> graphEdges = GraphDAO.parseEdge();
+
+        graph = new Graph(graphEdges, graphNodes);
         graphTraversal = new GraphTraversal(graph.getNumNodes(), graph.getMapping());
 
-        graph.initGraph();
+        initGraph(graphEdges);
+    }
+
+    public void initGraph(List<GraphEdge> graphEdges) {
+        for (GraphEdge graphEdge : graphEdges) {
+            graph.addEdge(graphEdge.getVertexA(), graphEdge.getVertexB(), graphEdge.getWeight());
+            graph.addEdge(graphEdge.getVertexB(), graphEdge.getVertexA(), graphEdge.getWeight());
+        }
     }
 
     public boolean validateNode(int nodeID) {
@@ -55,13 +65,13 @@ public class GraphManager {
 
         for (int i = 0; i < path.size() - 1; i++) {
             System.out.println("\t(" + path.get(i) + ") --["
-                    + graph.getEdgeWeight(graph.getNode(path.get(i)), graph.getNode(path.get(i + 1)))
+                    + graph.getWeight(graph.getNode(path.get(i)), graph.getNode(path.get(i + 1)))
                     + "]--> (" + path.get(i + 1) + ")");
         }
         System.out.println("\nThe shortest path cost is: " + graphTraversal.getMinDistance());
     }
 
-    public String graphToString() {
-        return graph.toString();
+    public void printGraph() {
+        System.out.println(graph.toString());
     }
 }

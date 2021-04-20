@@ -1,8 +1,6 @@
 package model.trees.binary;
 
-import model.Node;
-
-public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
+public class RedBlackBinarySearchTree<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     // RBT with n nodes has a max height of 2 * log(n + 1) --> O(2log(n+1))
 
@@ -20,7 +18,7 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     private final RedBlackNode<T> nil;       // Sentinel
 
-    public RedBlackTree() {
+    public RedBlackBinarySearchTree() {
         nil = new RedBlackNode<>();
         root = nil;
     }
@@ -33,7 +31,7 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     // the only ones that might be violated, as new nods are colored red.
 
     @Override
-    public void insert(Node<T> node) {
+    public void insert(BinaryNode<T> node) {
         insert((RedBlackNode<T>) node);
     }
 
@@ -174,7 +172,7 @@ public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     }
 
     @Override
-    public void delete(Node<T> node) {
+    public void delete(BinaryNode<T> node) {
         deleteNode((RedBlackNode<T>) node);
     }
 

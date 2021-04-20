@@ -16,11 +16,10 @@ public class TreesManager {
     public static final int BY_LEVEL_TRAVERSAL_ID = 3;
 
     public TreesManager () throws IOException{
-        binaryTree = new AVLTree<>();
+        binaryTree = new AVLBinarySearchTree<>();
         binaryTraversal = new BinarySearchTreeTraversal<>();
 
         initBinaryTree();
-        printTree();
     }
 
     // ---------------------------------------------------------------------------------
@@ -31,7 +30,7 @@ public class TreesManager {
         List<BinaryNode<Long>> nodeList = BinarySearchTreeDAO.parseNodes();
 
         for (BinaryNode<Long> node : nodeList) {
-            binaryTree.insert((AVLNode<Long>)node);
+            binaryTree.insert(node);
         }
     }
 
@@ -53,7 +52,7 @@ public class TreesManager {
     }
 
     public String searchByValue(long key) {
-        BinaryNode<Long> node = (BinaryNode<Long>) binaryTree.search(key);
+        BinaryNode<Long> node = binaryTree.search(key);
         return (node == null) ? null : node.getName();
     }
 
@@ -61,7 +60,7 @@ public class TreesManager {
         binaryTree.rangeSearch(minimum, maximum);
     }
 
-    public void printTree() {
+    public void printBinaryTree() {
         binaryTree.printTree();
     }
 

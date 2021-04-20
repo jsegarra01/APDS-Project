@@ -1,6 +1,6 @@
 package model.trees.binary;
 
-public class RedBlackNode<T> extends BinaryNode<T> {
+public class RedBlackNode<T extends Comparable<T>> extends BinaryNode<T> {
 
     public static final int BLACK = 0;
     public static final int RED = 1;

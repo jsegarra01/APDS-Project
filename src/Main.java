@@ -11,6 +11,7 @@ public class Main {
         try {
             graphManager = new GraphManager();
             treesManager = new TreesManager();
+
         } catch (IOException e) {
             System.out.println("ERROR: Unexpected problem reading the datasets");
         }

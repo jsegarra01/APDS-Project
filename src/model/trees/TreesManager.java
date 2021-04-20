@@ -16,10 +16,11 @@ public class TreesManager {
     public static final int BY_LEVEL_TRAVERSAL_ID = 3;
 
     public TreesManager () throws IOException{
-        binaryTree = new BinarySearchTree<>();
+        binaryTree = new AVLTree<>();
         binaryTraversal = new BinarySearchTreeTraversal<>();
 
         initBinaryTree();
+        printTree();
     }
 
     // ---------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ public class TreesManager {
         List<BinaryNode<Long>> nodeList = BinarySearchTreeDAO.parseNodes();
 
         for (BinaryNode<Long> node : nodeList) {
-            binaryTree.insert(node);
+            binaryTree.insert((AVLNode<Long>)node);
         }
     }
 

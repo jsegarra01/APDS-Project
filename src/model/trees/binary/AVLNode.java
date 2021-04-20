@@ -6,6 +6,7 @@ public class AVLNode<T> extends BinaryNode<T> {
     // TODO: Override some methods
 
     private int height;
+    private int balanceFactor;
 
     public AVLNode(T key, String name) {
         super(key, name);
@@ -35,4 +36,15 @@ public class AVLNode<T> extends BinaryNode<T> {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public int getBalanceFactor() { return balanceFactor;}
+
+    public void setBalanceFactor(int balanceFactor) { this.balanceFactor = balanceFactor;}
+
+    @Override
+    public String toString() {
+        return super.toString() + " (" + height + ")";
+    }
+
+
 }

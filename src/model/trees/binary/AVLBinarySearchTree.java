@@ -6,16 +6,20 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends BinarySearchTr
     public void insert(BinaryNode<T> node) {
         super.insert(node);
         recursionUpdate((AVLNode<T>) node);
-        printTree();
-        System.out.println();
     }
 
     @Override
     public void delete(BinaryNode<T> node) {
         super.delete(node);
         recursionUpdate((AVLNode<T>) node);
-        printTree();
-        System.out.println();
+
+        if (node.getLeft() == null || node.getRight() == null) {
+            recursionUpdate((AVLNode<T>) node);
+        }
+        else {
+            // if node has two children we must update the successor, as it is the one being removed
+            recursionUpdate((AVLNode<T>) successor(node));
+        }
     }
 
     private void recursionUpdate(AVLNode<T> node) {

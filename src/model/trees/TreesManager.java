@@ -39,7 +39,13 @@ public class TreesManager {
     }
 
     public void removeBinaryNode(String binaryNodeName) {
-        binaryTree.delete(binaryTree.search(binaryNodeName));
+        BinaryNode<Long> node = binaryTree.search(binaryNodeName);
+        if (node != null) {
+            binaryTree.delete(node);
+        }
+        else {
+            System.out.println("\nERROR: The specified node does not exist.");
+        }
     }
 
     public void listLoot(int traversalID) {

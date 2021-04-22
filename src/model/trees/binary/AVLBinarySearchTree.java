@@ -11,7 +11,6 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends BinarySearchTr
     @Override
     public void delete(BinaryNode<T> node) {
         super.delete(node);
-        recursionUpdate((AVLNode<T>) node);
 
         if (node.getLeft() == null || node.getRight() == null) {
             recursionUpdate((AVLNode<T>) node);

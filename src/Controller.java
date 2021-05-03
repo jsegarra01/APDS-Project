@@ -38,6 +38,7 @@ public class Controller {
                 case 2 -> graphOption = UI.displayGraphMenu();
                 case 3 -> binaryTreeOption = UI.displayBinaryTreeMenu();
                 case 4 -> binaryTreeTraversalOption = UI.displayBTreeTraversalMenu();
+                case 5 -> rTreeOption = UI.displayRTreeMenu();
             }
             UI.displayMessage("");
         }

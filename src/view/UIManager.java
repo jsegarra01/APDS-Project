@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 import view.menus.*;
@@ -66,7 +67,7 @@ public class UIManager {
         System.out.println("\tD. Find the optimal route (Dijkstra)\n");
         System.out.println("\tE. Go back\n");
 
-        String option = askString("What functionality do you want to run? ");
+        String option = askString("What functionality do you want to run? ").toUpperCase(Locale.ROOT);
 
         return switch (option) {
             case "A" -> GraphMenuOptions.DFS;
@@ -79,7 +80,7 @@ public class UIManager {
     }
 
     /**
-     * Shows the model.trees menu on the console and requests an option to the user.
+     * Shows the BinaryTree menu on the console and requests an option to the user.
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
@@ -93,7 +94,7 @@ public class UIManager {
         System.out.println("\tE. Search by value (range)\n");
         System.out.println("\tF. Go back\n");
 
-        String option = askString("What functionality do you want to run? ");
+        String option = askString("What functionality do you want to run? ").toUpperCase(Locale.ROOT);
 
         return switch (option) {
             case "A" -> BTreeMenuOptions.ADD;
@@ -107,7 +108,7 @@ public class UIManager {
     }
 
     /**
-     * Shows the model.trees traversal menu on the console and requests an option to the user.
+     * Shows the BinaryTrees traversal menu on the console and requests an option to the user.
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
@@ -119,7 +120,7 @@ public class UIManager {
         System.out.println("\tIII. Inorder");
         System.out.println("\tIV. By level\n");
 
-        String option = askString("Pick a traversal: ");
+        String option = askString("Pick a traversal: ").toUpperCase(Locale.ROOT);
 
         return switch (option) {
             case "I" -> BTreeTraversalMenuOptions.PREORDER;
@@ -131,7 +132,7 @@ public class UIManager {
     }
 
     /**
-     * Shows the r.trees menu on the console and requests an option to the user.
+     * Shows the RTrees menu on the console and requests an option to the user.
      *
      * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
@@ -145,7 +146,7 @@ public class UIManager {
         System.out.println("\tE. Search by proximity\n");
         System.out.println("\tF. Go back\n");
 
-        String option = askString("What functionality do you want to run? ");
+        String option = askString("What functionality do you want to run? ").toUpperCase(Locale.ROOT);
 
         return switch (option) {
             case "A" -> RTreeMenuOptions.ADD;
@@ -181,10 +182,21 @@ public class UIManager {
     }
 
     /**
-     * Shows a message on the screen and requests the user to input an long.
+     * Shows a message on the screen and requests the user to input a float.
      *
      * @param message the message to show on the screen.
-     * @return the user's input in form of an long.
+     * @return the user's input in form of a float.
+     * @throws NumberFormatException if user input is not a number.
+     */
+    public float askFloat(String message) throws NumberFormatException {
+        return Float.parseFloat(askString(message));
+    }
+
+    /**
+     * Shows a message on the screen and requests the user to input a long.
+     *
+     * @param message the message to show on the screen.
+     * @return the user's input in form of a long.
      * @throws NumberFormatException if user input is not a number.
      */
     public long askLong(String message) throws NumberFormatException {

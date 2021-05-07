@@ -12,6 +12,7 @@ public class TreesManager {
     private final BinarySearchTreeTraversal<Long> binaryTraversal;
 
     private final RTree rTree;
+    private final RTreeGraphics rTreeGraphics;
 
     public static final int PREORDER_TRAVERSAL_ID = 0;
     public static final int POSTORDER_TRAVERSAL_ID = 1;
@@ -23,6 +24,7 @@ public class TreesManager {
         binaryTraversal = new BinarySearchTreeTraversal<>();
 
         rTree = new RTree();
+        rTreeGraphics = new RTreeGraphics(rTree);
 
         initBinaryTree();
         initRTree();
@@ -83,17 +85,27 @@ public class TreesManager {
     private void initRTree() throws IOException {
         List<RPoint> nodeList = RTreeDAO.parseNodes();
 
-        /*
+
         for (RPoint node : nodeList) {
             rTree.insert(node);
         }
+
+        /*
+        rTree.insert(new RPoint("P1", new Point(200, 300)));
+        rTree.insert(new RPoint("P2", new Point(300, 100)));
+        rTree.insert(new RPoint("P3", new Point(600, 600)));
+        rTree.insert(new RPoint("P4", new Point(500, 500)));
+        rTree.insert(new RPoint("P5", new Point(500, 600)));
+        rTree.insert(new RPoint("P6", new Point(700, 400)));
+        rTree.insert(new RPoint("P7", new Point(800, 300)));
         */
-        rTree.insert(new RPoint("P1", new Point(2, 3)));
-        rTree.insert(new RPoint("P2", new Point(3, 1)));
-        rTree.insert(new RPoint("P3", new Point(6, 6)));
-        rTree.insert(new RPoint("P4", new Point(5, 5)));
-        rTree.insert(new RPoint("P5", new Point(5, 6)));
-        rTree.insert(new RPoint("P6", new Point(7, 4)));
-        rTree.insert(new RPoint("P7", new Point(8, 3)));
+    }
+
+    public void addRNode(String nodeName, float x, float y) {
+        rTree.insert(new RPoint(nodeName, new Point(x, y)));
+    }
+
+    public void visualizeRTree() {
+        rTreeGraphics.showTree();
     }
 }

@@ -12,6 +12,10 @@ public class RTree {
         root = new RContainer();
     }
 
+    public RContainer getRoot() {
+        return root;
+    }
+
     public void insert(RNode node) {
         insertRecursive(root, node);
     }

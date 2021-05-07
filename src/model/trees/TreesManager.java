@@ -1,6 +1,7 @@
 package model.trees;
 
 import model.trees.binary.*;
+import model.trees.r.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +10,8 @@ public class TreesManager {
 
     private final BinarySearchTree<Long> binaryTree;
     private final BinarySearchTreeTraversal<Long> binaryTraversal;
+
+    private final RTree rTree;
 
     public static final int PREORDER_TRAVERSAL_ID = 0;
     public static final int POSTORDER_TRAVERSAL_ID = 1;
@@ -19,7 +22,10 @@ public class TreesManager {
         binaryTree = new AVLBinarySearchTree<>();
         binaryTraversal = new BinarySearchTreeTraversal<>();
 
+        rTree = new RTree();
+
         initBinaryTree();
+        initRTree();
     }
 
     // ---------------------------------------------------------------------------------
@@ -73,4 +79,21 @@ public class TreesManager {
     // ---------------------------------------------------------------------------------
     // R TREES
     // ---------------------------------------------------------------------------------
+
+    private void initRTree() throws IOException {
+        List<RPoint> nodeList = RTreeDAO.parseNodes();
+
+        /*
+        for (RPoint node : nodeList) {
+            rTree.insert(node);
+        }
+        */
+        rTree.insert(new RPoint("P1", new Point(2, 3)));
+        rTree.insert(new RPoint("P2", new Point(3, 1)));
+        rTree.insert(new RPoint("P3", new Point(6, 6)));
+        rTree.insert(new RPoint("P4", new Point(5, 5)));
+        rTree.insert(new RPoint("P5", new Point(5, 6)));
+        rTree.insert(new RPoint("P6", new Point(7, 4)));
+        rTree.insert(new RPoint("P7", new Point(8, 3)));
+    }
 }

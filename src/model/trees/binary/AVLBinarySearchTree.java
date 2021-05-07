@@ -5,6 +5,8 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends BinarySearchTr
     @Override
     public void insert(BinaryNode<T> node) {
         super.insert(node);
+
+        // Balance
         recursionUpdate((AVLNode<T>) node);
     }
 
@@ -12,11 +14,12 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends BinarySearchTr
     public void delete(BinaryNode<T> node) {
         super.delete(node);
 
+        // Balance
         if (node.getLeft() == null || node.getRight() == null) {
             recursionUpdate((AVLNode<T>) node);
         }
         else {
-            // if node has two children we must update the successor, as it is the one being removed
+            // If node has two children we must update the successor, as it is the one being removed
             recursionUpdate((AVLNode<T>) successor(node));
         }
     }

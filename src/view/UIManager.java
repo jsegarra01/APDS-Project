@@ -130,6 +130,33 @@ public class UIManager {
         };
     }
 
+    /**
+     * Shows the r.trees menu on the console and requests an option to the user.
+     *
+     * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
+     * @throws InvalidInputException if the user input is invalid.
+     * @see BTreeTraversalMenuOptions
+     */
+    public RTreeMenuOptions displayRTreeMenu() throws InvalidInputException {
+        System.out.println("\tA. Add treasure");
+        System.out.println("\tB. Remove treasure");
+        System.out.println("\tC. Visualize");
+        System.out.println("\tD. Search by area");
+        System.out.println("\tE. Search by proximity\n");
+        System.out.println("\tF. Go back\n");
+
+        String option = askString("What functionality do you want to run? ");
+
+        return switch (option) {
+            case "A" -> RTreeMenuOptions.ADD;
+            case "B" -> RTreeMenuOptions.REMOVE;
+            case "C" -> RTreeMenuOptions.VISUALIZE;
+            case "D" -> RTreeMenuOptions.SEARCH_AREA;
+            case "E" -> RTreeMenuOptions.SEARCH_PROXIMITY;
+            case "F" -> RTreeMenuOptions.BACK;
+            default -> throw new InvalidInputException(option);
+        };
+    }
 
     /**
      * Shows a message on the screen and requests the user to input a String.

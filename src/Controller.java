@@ -15,12 +15,14 @@ public class Controller {
     private static final int GRAPHS_ID = 2;
     private static final int BINARY_TREE_ID = 3;
     private static final int BINARY_TREE_TRAVERSAL_ID = 4;
+    private static final int R_TREE_ID = 5;
 
     // Menu's options
     private GeneralMenuOptions generalOption;
     private GraphMenuOptions graphOption;
     private BTreeMenuOptions binaryTreeOption;
     private BTreeTraversalMenuOptions binaryTreeTraversalOption;
+    private RTreeMenuOptions rTreeOption;
 
     public Controller(GraphManager graphManager, TreesManager treesManager) {
         this.graphManager = graphManager;
@@ -36,6 +38,7 @@ public class Controller {
                 case 2 -> graphOption = UI.displayGraphMenu();
                 case 3 -> binaryTreeOption = UI.displayBinaryTreeMenu();
                 case 4 -> binaryTreeTraversalOption = UI.displayBTreeTraversalMenu();
+                case 5 -> rTreeOption = UI.displayRTreeMenu();
             }
             UI.displayMessage("");
         }
@@ -167,8 +170,8 @@ public class Controller {
             getOption(BINARY_TREE_ID);
 
             switch (binaryTreeOption) {
-                case ADD -> addTreasure();
-                case REMOVE -> removeTreasure();
+                case ADD -> addTreasureB();
+                case REMOVE -> removeTreasureB();
                 case LIST -> listLoot();
                 case EXACT -> searchByValue();
                 case RANGE -> searchByRange();
@@ -177,7 +180,7 @@ public class Controller {
         } while (binaryTreeOption != BTreeMenuOptions.BACK);
     }
 
-    private void addTreasure() {
+    private void addTreasureB() {
         long nodeValue;
         String nodeName;
 
@@ -192,7 +195,7 @@ public class Controller {
         UI.displayMessage("");
     }
 
-    private void removeTreasure() {
+    private void removeTreasureB() {
         String nodeName;
 
         // TODO: validate name
@@ -251,6 +254,40 @@ public class Controller {
     // ---------------------------------------------------------------------------------
 
     private void runDeck() {
+        do {
+            getOption(R_TREE_ID);
+
+            switch (rTreeOption) {
+                case ADD -> addTreasureR();
+                case REMOVE -> removeTreasureR();
+                case VISUALIZE -> visualize();
+                case SEARCH_AREA -> searchByArea();
+                case SEARCH_PROXIMITY -> searchByProximity();
+            }
+
+        } while (rTreeOption != RTreeMenuOptions.BACK);
+
+        UI.displayMessage("");
+    }
+
+    private void addTreasureR() {
+
+    }
+
+    private void removeTreasureR() {
+
+    }
+
+    private void visualize() {
+
+    }
+
+    private void searchByArea() {
+
+    }
+
+    private void searchByProximity() {
+
     }
 
     // ---------------------------------------------------------------------------------

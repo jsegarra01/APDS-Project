@@ -19,8 +19,7 @@ public class RTreeGraphics extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
-        JRTree JRTree = new JRTree();
-        this.getContentPane().add(JRTree);
+        this.getContentPane().add(new JRTree());
     }
 
     public void showTree() {

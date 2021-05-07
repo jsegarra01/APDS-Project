@@ -102,7 +102,7 @@ public class TreesManager {
     }
 
     public void addRNode(String nodeName, float x, float y) {
-        rTree.insert(new RPoint(nodeName, new Point(x, y)));
+        rTree.insert(new RPoint(nodeName, new Point(x * 100, y * 100)));
     }
 
     public void visualizeRTree() {

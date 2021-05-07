@@ -291,6 +291,8 @@ public class Controller {
     }
 
     private void visualize() {
+        UI.displayMessage("Drawing the tree...");
+        UI.displayMessage("");
         treesManager.visualizeRTree();
     }
 

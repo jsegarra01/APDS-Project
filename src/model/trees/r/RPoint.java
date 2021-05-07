@@ -10,6 +10,10 @@ public class RPoint implements RNode {
         this.point = point;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Point getPoint() {
         return point;

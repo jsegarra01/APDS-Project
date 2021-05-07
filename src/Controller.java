@@ -271,15 +271,29 @@ public class Controller {
     }
 
     private void addTreasureR() {
+        String nodeName;
+        float x, y;
 
+        // TODO: validate name/position
+        nodeName = UI.askString("Enter the treasure's name: ");
+        x = UI.askFloat("Enter the X coordinate of the treasure's position: ");
+        y = UI.askFloat("Enter the Y coordinate of the treasure's position: ");
+
+        treesManager.addRNode(nodeName, x, y);
+
+        UI.displayMessage("");
+        UI.displayMessage("The treasure was correctly added to the loot.");
+        UI.displayMessage("");
     }
 
     private void removeTreasureR() {
-
+        // Not implemented
     }
 
     private void visualize() {
-
+        UI.displayMessage("Drawing the tree...");
+        UI.displayMessage("");
+        treesManager.visualizeRTree();
     }
 
     private void searchByArea() {

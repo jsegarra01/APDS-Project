@@ -16,6 +16,7 @@ public class Controller {
     private static final int BINARY_TREE_ID = 3;
     private static final int BINARY_TREE_TRAVERSAL_ID = 4;
     private static final int R_TREE_ID = 5;
+    private static final int TABLES_ID = 6;
 
     // Menu's options
     private GeneralMenuOptions generalOption;
@@ -23,6 +24,7 @@ public class Controller {
     private BTreeMenuOptions binaryTreeOption;
     private BTreeTraversalMenuOptions binaryTreeTraversalOption;
     private RTreeMenuOptions rTreeOption;
+    private TablesMenuOptions tablesOption;
 
     public Controller(GraphManager graphManager, TreesManager treesManager) {
         this.graphManager = graphManager;
@@ -39,6 +41,7 @@ public class Controller {
                 case 3 -> binaryTreeOption = UI.displayBinaryTreeMenu();
                 case 4 -> binaryTreeTraversalOption = UI.displayBTreeTraversalMenu();
                 case 5 -> rTreeOption = UI.displayRTreeMenu();
+                case 6 -> tablesOption = UI.displayTablesMenu();
             }
             UI.displayMessage("");
         }
@@ -309,6 +312,32 @@ public class Controller {
     // ---------------------------------------------------------------------------------
 
     private void runCrew() {
+        do {
+            getOption(TABLES_ID);
+
+            switch (tablesOption) {
+                case ADD -> addPirate();
+                case REMOVE -> removePirate();
+                case SHOW -> showPirate();
+                case AGE -> ageHistogram();
+            }
+
+        } while (tablesOption != TablesMenuOptions.BACK);
+
+        UI.displayMessage("");
     }
+
+    private void addPirate() {
+    }
+
+    private void removePirate() {
+    }
+
+    private void showPirate() {
+    }
+
+    private void ageHistogram() {
+    }
+
 
 }

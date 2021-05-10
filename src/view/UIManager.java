@@ -134,7 +134,7 @@ public class UIManager {
     /**
      * Shows the RTrees menu on the console and requests an option to the user.
      *
-     * @return the option entered by the user in form of a value from the enumeration view.menus.BTreeTraversalMenuOptions.
+     * @return the option entered by the user in form of a value from the enumeration view.menus.RtreeMenuOptions.
      * @throws InvalidInputException if the user input is invalid.
      * @see BTreeTraversalMenuOptions
      */
@@ -155,6 +155,32 @@ public class UIManager {
             case "D" -> RTreeMenuOptions.SEARCH_AREA;
             case "E" -> RTreeMenuOptions.SEARCH_PROXIMITY;
             case "F" -> RTreeMenuOptions.BACK;
+            default -> throw new InvalidInputException(option);
+        };
+    }
+
+    /**
+     * Shows the Tables menu on the console and requests an option to the user.
+     *
+     * @return the option entered by the user in form of a value from the enumeration view.menus.TablesMenuOptions.
+     * @throws InvalidInputException if the user input is invalid.
+     * @see RTreeMenuOptions
+     */
+    public TablesMenuOptions displayTablesMenu() throws InvalidInputException {
+        System.out.println("\tA. Add pirate");
+        System.out.println("\tB. Remove pirate");
+        System.out.println("\tC. Show pirate");
+        System.out.println("\tD. Age histogram\n");
+        System.out.println("\tE. Go back\n");
+
+        String option = askString("What functionality do you want to run? ").toUpperCase(Locale.ROOT);;
+
+        return switch (option) {
+            case "A" -> TablesMenuOptions.ADD;
+            case "B" -> TablesMenuOptions.REMOVE;
+            case "C" -> TablesMenuOptions.SHOW;
+            case "D" -> TablesMenuOptions.AGE;
+            case "E" -> TablesMenuOptions.BACK;
             default -> throw new InvalidInputException(option);
         };
     }

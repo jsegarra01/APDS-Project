@@ -179,7 +179,7 @@ public class RTree {
 
     private float curMaxDistance;
     private List<RNode> nearestPoints;
-
+    int x = 0;
     public void printNear(){
         for (RNode r: nearestPoints) {
             System.out.println(r.toString());
@@ -190,20 +190,21 @@ public class RTree {
         curMaxDistance = Float.MIN_VALUE;
         nearestPoints = new ArrayList<>();
         searchByProximityRecursive(root, point, numPoints);
+
     }
 
     private void searchByProximityRecursive(RContainer container, Point point, int numPoints) {
         if (container.isLeaf()) {
             for (RNode node : container.getNodes()) {
                 // TODO: add node
-                if(nearestPoints.size() < numPoints){
+                if(nearestPoints.size() < numPoints && !nearestPoints.contains(node)){
                     nearestPoints.add(node);
                     if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
 
                 }
                 else {
                     for (RNode rNode:nearestPoints) {
-                        if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance < point.getDistance(node.getPoint())){
+                        if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance > point.getDistance(node.getPoint()) && !nearestPoints.contains(node)){
                             nearestPoints.remove(rNode);
                             nearestPoints.add(node);
                             curMaxDistance = point.getDistance(node.getPoint());
@@ -211,7 +212,7 @@ public class RTree {
                         }
                     }
                     for (RNode rNode:nearestPoints) {
-                        if(curMaxDistance == point.getDistance(node.getPoint()) && curMaxDistance < point.getDistance(rNode.getPoint())){
+                        if(curMaxDistance < point.getDistance(rNode.getPoint())){
                             curMaxDistance = point.getDistance(rNode.getPoint());
                         }
                     }
@@ -222,34 +223,18 @@ public class RTree {
         }
         else {
             RRectangle successor = getMinGrowthRectangle(new RPoint("", point), container);
-            if (successor != null) searchByProximityRecursive(successor.getChild(), point, numPoints);
+            if(x == 0) {
+                if (successor != null) searchByProximityRecursive(successor.getChild(), point, numPoints);
+                x++;
+            }
 
-            // After inserting nodes from first rectangle check its siblings
-            for (RNode node : container.getNodes()) {
-                RRectangle rectangle = (RRectangle) node;
-                if (!rectangle.equals(successor) && curMaxDistance > rectangle.getMinDistance(point)) {
-                    // TODO: add node
-                    if(nearestPoints.size() < numPoints){
-                        nearestPoints.add(node);
-                        if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
 
-                    }
-                    else {
-                        for (RNode rNode:nearestPoints) {
-                            if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance < point.getDistance(node.getPoint())){
-                                nearestPoints.remove(rNode);
-                                nearestPoints.add(node);
-                                curMaxDistance = point.getDistance(node.getPoint());
-                                break;
-                            }
-                        }
-                        for (RNode rNode:nearestPoints) {
-                            if(curMaxDistance == point.getDistance(node.getPoint()) && curMaxDistance < point.getDistance(rNode.getPoint())){
-                                curMaxDistance = point.getDistance(rNode.getPoint());
-                            }
-                        }
-
-                    }
+            for (RNode rectangle : container.getNodes()) {
+                if(rectangle.equals(successor)){
+                    continue;
+                }
+                if (((RRectangle) rectangle).getMinDistance(point) < curMaxDistance){
+                    searchByProximityRecursive(((RRectangle) rectangle).getChild(), point, numPoints);
                 }
             }
         }

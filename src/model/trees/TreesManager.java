@@ -128,7 +128,7 @@ public class TreesManager {
     }
 
     public void searchByProximity() {
-        rTree.searchByProximity(new Point(0.8f, 1.2f), 3);
+        rTree.searchByProximity(new Point(2.0f, 1.5f), 3);
 
         rTree.printNear();
     }

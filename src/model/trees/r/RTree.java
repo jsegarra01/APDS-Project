@@ -178,9 +178,17 @@ public class RTree {
     // -------------------------------- SEARCH BY PROXIMITY --------------------------------
 
     private float curMaxDistance;
+    private List<RNode> nearestPoints;
+
+    public void printNear(){
+        for (RNode r: nearestPoints) {
+            System.out.println(r.toString());
+        }
+    }
 
     public void searchByProximity(Point point, int numPoints) {
         curMaxDistance = Float.MIN_VALUE;
+        nearestPoints = new ArrayList<>();
         searchByProximityRecursive(root, point, numPoints);
     }
 
@@ -188,8 +196,28 @@ public class RTree {
         if (container.isLeaf()) {
             for (RNode node : container.getNodes()) {
                 // TODO: add node
+                if(nearestPoints.size() < numPoints){
+                    nearestPoints.add(node);
+                    if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
 
-                if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
+                }
+                else {
+                    for (RNode rNode:nearestPoints) {
+                        if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance < point.getDistance(node.getPoint())){
+                            nearestPoints.remove(rNode);
+                            nearestPoints.add(node);
+                            curMaxDistance = point.getDistance(node.getPoint());
+                            break;
+                        }
+                    }
+                    for (RNode rNode:nearestPoints) {
+                        if(curMaxDistance == point.getDistance(node.getPoint()) && curMaxDistance < point.getDistance(rNode.getPoint())){
+                            curMaxDistance = point.getDistance(rNode.getPoint());
+                        }
+                    }
+
+                }
+
             }
         }
         else {
@@ -201,6 +229,27 @@ public class RTree {
                 RRectangle rectangle = (RRectangle) node;
                 if (!rectangle.equals(successor) && curMaxDistance > rectangle.getMinDistance(point)) {
                     // TODO: add node
+                    if(nearestPoints.size() < numPoints){
+                        nearestPoints.add(node);
+                        if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
+
+                    }
+                    else {
+                        for (RNode rNode:nearestPoints) {
+                            if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance < point.getDistance(node.getPoint())){
+                                nearestPoints.remove(rNode);
+                                nearestPoints.add(node);
+                                curMaxDistance = point.getDistance(node.getPoint());
+                                break;
+                            }
+                        }
+                        for (RNode rNode:nearestPoints) {
+                            if(curMaxDistance == point.getDistance(node.getPoint()) && curMaxDistance < point.getDistance(rNode.getPoint())){
+                                curMaxDistance = point.getDistance(rNode.getPoint());
+                            }
+                        }
+
+                    }
                 }
             }
         }

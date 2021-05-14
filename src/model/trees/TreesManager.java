@@ -74,10 +74,6 @@ public class TreesManager {
         binaryTree.rangeSearch(minimum, maximum);
     }
 
-    public void printBinaryTree() {
-        binaryTree.printTree();
-    }
-
     // ---------------------------------------------------------------------------------
     // R TREES
     // ---------------------------------------------------------------------------------
@@ -116,8 +112,8 @@ public class TreesManager {
         rTree.searchByArea(new RRectangle(pointA, pointB));
 
         if (rTree.getResultSize() != 0) {
-            System.out.println("\n" + rTree.getResultSize() + " treasures were found in this area: \n");
-            for (String result : rTree.getSearchResult()) {
+            System.out.println("\n" + rTree.getResultSize() + " treasures were found in this area:\n");
+            for (String result : rTree.getAreaSearchResult()) {
                 System.out.println("\t" + result);
             }
         }
@@ -127,10 +123,14 @@ public class TreesManager {
         System.out.println();
     }
 
-    public void searchByProximity() {
-        rTree.searchByProximity(new Point(2.0f, 1.5f), 3);
+    public void searchByProximity(float x, float y, int k) {
+        rTree.searchByProximity(new Point(x, y), k);
 
-        rTree.printNear();
+        System.out.println("\nThe " + k + " nearest treasures to this point are:\n");
+        for (RNode node : rTree.getProximitySearchResult()) {
+            System.out.println("\t" + node.toString());
+        }
+        System.out.println();
     }
 
 }

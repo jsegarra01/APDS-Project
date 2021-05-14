@@ -8,7 +8,6 @@ public class RTree {
     public static final int ORDER = 3;
 
     private RContainer root;
-    private List<String> searchResult;
 
     public RTree() {
         root = new RContainer();
@@ -16,14 +15,6 @@ public class RTree {
 
     public RContainer getRoot() {
         return root;
-    }
-
-    public int getResultSize() {
-        return  searchResult.size();
-    }
-
-    public List<String> getSearchResult() {
-        return searchResult;
     }
 
     // -------------------------------- INSERT --------------------------------
@@ -151,8 +142,18 @@ public class RTree {
 
     // -------------------------------- SEARCH BY AREA --------------------------------
 
+    private List<String> areaSearchResult;
+
+    public int getResultSize() {
+        return  areaSearchResult.size();
+    }
+
+    public List<String> getAreaSearchResult() {
+        return areaSearchResult;
+    }
+
     public void searchByArea(RRectangle rectangle) {
-        searchResult = new ArrayList<>();
+        areaSearchResult = new ArrayList<>();
         searchByAreaRecursive(root, rectangle);
     }
 
@@ -169,7 +170,7 @@ public class RTree {
             else {
                 // If it is a point check if it is inside the specified rectangle
                 if (node.isContained(rectangle)) {
-                    searchResult.add(node.toString());
+                    areaSearchResult.add(node.toString());
                 }
             }
         }
@@ -177,68 +178,74 @@ public class RTree {
 
     // -------------------------------- SEARCH BY PROXIMITY --------------------------------
 
+    private List<RNode> proximitySearchResult;
+
+    private RNode distantNode;
     private float curMaxDistance;
-    private List<RNode> nearestPoints;
-    int x = 0;
-    public void printNear(){
-        for (RNode r: nearestPoints) {
-            System.out.println(r.toString());
-        }
+
+    public List<RNode> getProximitySearchResult() {
+        return proximitySearchResult;
     }
 
-    public void searchByProximity(Point point, int numPoints) {
+    public void searchByProximity(Point point, int k) {
         curMaxDistance = Float.MIN_VALUE;
-        nearestPoints = new ArrayList<>();
-        searchByProximityRecursive(root, point, numPoints);
+        proximitySearchResult = new ArrayList<>();
 
+        searchByProximityRecursive(root, point, k);
     }
 
-    private void searchByProximityRecursive(RContainer container, Point point, int numPoints) {
+    private void searchByProximityRecursive(RContainer container, Point point, int k) {
         if (container.isLeaf()) {
-            for (RNode node : container.getNodes()) {
-                // TODO: add node
-                if(nearestPoints.size() < numPoints && !nearestPoints.contains(node)){
-                    nearestPoints.add(node);
-                    if (curMaxDistance < point.getDistance(node.getPoint())) curMaxDistance = point.getDistance(node.getPoint());
-
-                }
-                else {
-                    for (RNode rNode:nearestPoints) {
-                        if(curMaxDistance == point.getDistance(rNode.getPoint()) && curMaxDistance > point.getDistance(node.getPoint()) && !nearestPoints.contains(node)){
-                            nearestPoints.remove(rNode);
-                            nearestPoints.add(node);
-                            curMaxDistance = point.getDistance(node.getPoint());
-                            break;
-                        }
-                    }
-                    for (RNode rNode:nearestPoints) {
-                        if(curMaxDistance < point.getDistance(rNode.getPoint())){
-                            curMaxDistance = point.getDistance(rNode.getPoint());
-                        }
-                    }
-
-                }
-
-            }
+            // Get nearest points
+            findNearestPoints(container, point, k);
         }
         else {
+            // Find the rectangle where the point would be inserted
             RRectangle successor = getMinGrowthRectangle(new RPoint("", point), container);
-            if(x == 0) {
-                if (successor != null) searchByProximityRecursive(successor.getChild(), point, numPoints);
-                x++;
-            }
+            if (successor != null) searchByProximityRecursive(successor.getChild(), point, k);
 
+            // After getting the points in the rectangle where the point would be inserted
+            // Visit the siblings and check if there is any node closer
+            for (RNode node : container.getNodes()) {
+                RRectangle rectangle = (RRectangle) node;
 
-            for (RNode rectangle : container.getNodes()) {
-                if(rectangle.equals(successor)){
-                    continue;
-                }
-                if (((RRectangle) rectangle).getMinDistance(point) < curMaxDistance){
-                    searchByProximityRecursive(((RRectangle) rectangle).getChild(), point, numPoints);
+                // Skip the visited rectangle
+                if (rectangle.equals(successor)) continue;
+
+                // Prune those rectangles that are to far away
+                if (rectangle.getMinDistance(point) < curMaxDistance){
+                    searchByProximityRecursive(rectangle.getChild(), point, k);
                 }
             }
         }
     }
 
-    // TODO: after all candidate points have been inserted get the ones with the k smallest distance
+    private void findNearestPoints(RContainer container, Point point, int k) {
+        for (RNode curNode : container.getNodes()) {
+            if (proximitySearchResult.size() < k) {
+                proximitySearchResult.add(curNode);
+
+                // Update max distance
+                if (curMaxDistance < point.getDistance(curNode.getPoint())) {
+                    curMaxDistance = point.getDistance(curNode.getPoint());
+                    distantNode = curNode;
+                }
+            }
+            // If we have already got k points check if any of the remaining is closer than the actual ones
+            else {
+                if (curMaxDistance > point.getDistance(curNode.getPoint())) {
+                    proximitySearchResult.set(proximitySearchResult.indexOf(distantNode), curNode);
+                    curMaxDistance = Float.MIN_VALUE;
+                }
+
+                // Update max distance
+                for (RNode node: proximitySearchResult) {
+                    if (curMaxDistance < point.getDistance(node.getPoint())) {
+                        curMaxDistance = point.getDistance(node.getPoint());
+                        distantNode = node;
+                    }
+                }
+            }
+        }
+    }
 }

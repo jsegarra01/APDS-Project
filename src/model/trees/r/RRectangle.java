@@ -72,15 +72,15 @@ public class RRectangle implements RNode {
 
     // ---------------------------------------------
     //              |                 |
-    //    case 0    |     case 1      |    case 2
+    //    case 0          case 1           case 2
     //              |                 |
-    // -  -  -  -  - ----------------- -  -  -  -  -
+    // -  -  -  -  -0-----------------0-  -  -  -  -
     //              |                 |
     //    case 3    |    rectangle    |    case 4
     //              |                 |
-    // -  -  -  -  - ----------------- -  -  -  -  -
+    // -  -  -  -  -0-----------------0-  -  -  -  -
     //              |                 |
-    //    case 5    |     case 6      |    case 7
+    //    case 5          case 6           case 7
     //              |                 |
     // ---------------------------------------------
 
@@ -138,10 +138,11 @@ public class RRectangle implements RNode {
         Point topLeft = rectangle.getPoint();
         Point bottomRight = rectangle.getBottomRight();
 
-        // Check if one of the rectangles is
+        // Check if one of the rectangles is on the left of the other
         if (this.point.x >= bottomRight.x || topLeft.x >= this.getBottomRight().x){
             return false;
         }
+        // Check if one of the rectangles is above of the other
         if (this.point.y <= bottomRight.y || topLeft.y <= this.getBottomRight().y) {
             return false;
         }

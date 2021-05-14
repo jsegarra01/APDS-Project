@@ -68,4 +68,9 @@ public class RPoint implements RNode {
         return width * height;
     }
     */
+
+    @Override
+    public String toString() {
+        return name + " " + point.toString();
+    }
 }

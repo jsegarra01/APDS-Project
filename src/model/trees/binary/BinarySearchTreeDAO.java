@@ -20,7 +20,7 @@ public class BinarySearchTreeDAO {
         int counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            treasureList.add(new AVLNode<>(Long.parseLong(info[1]), info[0]));
+            treasureList.add(new BinaryNode<>(Long.parseLong(info[1]), info[0]));
         }
 
         bufferedReader.close();

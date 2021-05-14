@@ -187,7 +187,6 @@ public class Controller {
         long nodeValue;
         String nodeName;
 
-        // TODO: validate name/value
         nodeName = UI.askString("Enter the treasure's name: ");
         nodeValue = UI.askLong("Enter the treasure's value: ");
 
@@ -201,7 +200,6 @@ public class Controller {
     private void removeTreasureB() {
         String nodeName;
 
-        // TODO: validate name
         nodeName = UI.askString("Enter the treasure's name: ");
 
         treesManager.removeBinaryNode(nodeName);
@@ -243,7 +241,6 @@ public class Controller {
         long lowerBoundValue;
         long upperBoundValue;
 
-        // TODO: validate lowerBound < upperBound
         lowerBoundValue = UI.askLong("Enter the minimum value to search for: ");
         upperBoundValue = UI.askLong("Enter the maximum value to search for: ");
 
@@ -277,7 +274,6 @@ public class Controller {
         String nodeName;
         float x, y;
 
-        // TODO: validate name/position
         nodeName = UI.askString("Enter the treasure's name: ");
         x = UI.askFloat("Enter the X coordinate of the treasure's position: ");
         y = UI.askFloat("Enter the Y coordinate of the treasure's position: ");
@@ -291,20 +287,40 @@ public class Controller {
 
     private void removeTreasureR() {
         // Not implemented
+        UI.displayMessage("This option is to be implemented. :(\n");
     }
 
     private void visualize() {
-        UI.displayMessage("Drawing the tree...");
-        UI.displayMessage("");
+        UI.displayMessage("Generating the deck representation...\n");
         treesManager.visualizeRTree();
     }
 
     private void searchByArea() {
-        treesManager.searchByArea(1.2f, 1.8f, 1.8f, 0.3f);
+        String rectangleA, rectangleB;
+        float x1, y1, x2, y2;
+
+        rectangleA = UI.askString("Enter the rectangle's top-left point (x,y): ");
+        rectangleB = UI.askString("Enter the rectangle's bottom-right point (x,y): ");
+
+        String[] pointsA = rectangleA.split(",");
+        String[] pointsB = rectangleB.split(",");
+
+        x1 = Float.parseFloat(pointsA[0]);
+        y1 = Float.parseFloat(pointsA[1]);
+        x2 = Float.parseFloat(pointsB[0]);
+        y2 = Float.parseFloat(pointsB[1]);
+
+        treesManager.searchByArea(x1, y1, x2, y2);
     }
 
     private void searchByProximity() {
+        int k = UI.askInteger("Enter the number of treasures to find: ");
+        String point = UI.askString("Enter the point to search around (x,y): ");
 
+        float x = Float.parseFloat(point.split(",")[0]);
+        float y = Float.parseFloat(point.split(",")[1]);
+
+        treesManager.searchByProximity(x, y, k);
     }
 
     // ---------------------------------------------------------------------------------

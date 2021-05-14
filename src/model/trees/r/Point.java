@@ -23,4 +23,9 @@ public class Point {
 
         return (float) Math.sqrt(xDif + yDif);
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

@@ -300,7 +300,7 @@ public class Controller {
     }
 
     private void searchByArea() {
-
+        treesManager.searchByArea(1.2f, 1.8f, 1.8f, 0.3f);
     }
 
     private void searchByProximity() {

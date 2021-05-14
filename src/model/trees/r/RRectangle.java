@@ -17,6 +17,13 @@ public class RRectangle implements RNode {
         this.point = point;
     }
 
+    public RRectangle(Point pointA, Point pointB) {
+        child = null;
+        this.point = pointA;
+        this.width = pointB.x - pointA.x;
+        this.height = pointA.y - pointB.y;
+    }
+
     public RContainer getChild() {
         return child;
     }
@@ -68,6 +75,18 @@ public class RRectangle implements RNode {
     public float getArea(RRectangle rectangle) {
         return newWidth(rectangle.getPoint(), rectangle.getBottomRight()) *
                 newHeight(rectangle.getPoint(), rectangle.getBottomRight());
+    }
+
+    public boolean isIntersecting(Point topLeft, Point bottomRight) {
+        // Check if one of the rectangles is
+        if (this.point.x >= bottomRight.x || topLeft.x >= this.getBottomRight().x){
+            return false;
+        }
+        if (this.point.y <= bottomRight.y || topLeft.y <= this.getBottomRight().y) {
+            return false;
+        }
+
+        return true;
     }
 
     public void updateSize(RNode node) {

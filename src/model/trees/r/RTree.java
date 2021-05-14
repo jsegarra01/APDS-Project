@@ -1,5 +1,9 @@
 package model.trees.r;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+
 public class RTree {
 
     // TODO: place R in BR
@@ -118,5 +122,27 @@ public class RTree {
         rectangle.setChild(childContainer);
 
         return rectangle;
+    }
+
+    public void searchByArea(Point point1, Point point2) {
+        RRectangle rectangle = new RRectangle(point1, point2);
+        searchRecursive(root, rectangle);
+    }
+
+    private void searchRecursive(RContainer container, RRectangle rectangle) {
+        for (RNode node : container.getNodes()){
+            if (node instanceof RRectangle) {
+                RRectangle rRectangle = (RRectangle) node;
+
+                if (rRectangle.isIntersecting(rectangle.getPoint(), rectangle.getBottomRight())) {
+                    searchRecursive(rRectangle.getChild(), rectangle);
+                }
+            }
+            else {
+                if (node.isContained(rectangle)) {
+                    System.out.println(((RPoint) node).getName());
+                }
+            }
+        }
     }
 }

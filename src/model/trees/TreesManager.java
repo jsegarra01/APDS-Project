@@ -108,4 +108,8 @@ public class TreesManager {
     public void visualizeRTree() {
         rTreeGraphics.showTree();
     }
+
+    public void searchByArea(float x1, float y1, float x2, float y2){
+        rTree.searchByArea(new Point(x1 * 100, y1* 100), new Point(x2* 100, y2* 100));
+    }
 }

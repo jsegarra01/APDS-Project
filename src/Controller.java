@@ -291,20 +291,35 @@ public class Controller {
 
     private void removeTreasureR() {
         // Not implemented
+        UI.displayMessage("This option is to be implemented. :(\n");
     }
 
     private void visualize() {
-        UI.displayMessage("Drawing the tree...");
-        UI.displayMessage("");
+        UI.displayMessage("Generating the deck representation...\n");
         treesManager.visualizeRTree();
     }
 
     private void searchByArea() {
-        treesManager.searchByArea(1.2f, 1.8f, 1.8f, 0.3f);
+        String rectangleA, rectangleB;
+        float x1, y1, x2, y2;
+
+        // TODO: validate position
+        rectangleA = UI.askString("Enter the rectangle's top-left point (x,y): ");
+        rectangleB = UI.askString("Enter the rectangle's bottom-right point (x,y): ");
+
+        String[] pointsA = rectangleA.split(",");
+        String[] pointsB = rectangleB.split(",");
+
+        x1 = Float.parseFloat(pointsA[0]);
+        y1 = Float.parseFloat(pointsA[1]);
+        x2 = Float.parseFloat(pointsB[0]);
+        y2 = Float.parseFloat(pointsB[1]);
+
+        treesManager.searchByArea(x1, y1, x2, y2);
     }
 
     private void searchByProximity() {
-
+        treesManager.searchByProximity();
     }
 
     // ---------------------------------------------------------------------------------

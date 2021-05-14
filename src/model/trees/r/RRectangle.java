@@ -55,7 +55,6 @@ public class RRectangle implements RNode {
     @Override
     public Point getPoint() {
         return point;
-        // return getCentre();
     }
 
     @Override
@@ -71,13 +70,74 @@ public class RRectangle implements RNode {
         return this.getCentre().getDistance(point);
     }
 
+    // ---------------------------------------------
+    //              |                 |
+    //    case 0    |     case 1      |    case 2
+    //              |                 |
+    // -  -  -  -  - ----------------- -  -  -  -  -
+    //              |                 |
+    //    case 3    |    rectangle    |    case 4
+    //              |                 |
+    // -  -  -  -  - ----------------- -  -  -  -  -
+    //              |                 |
+    //    case 5    |     case 6      |    case 7
+    //              |                 |
+    // ---------------------------------------------
+
+    public float getMinDistance(Point point) {
+        // Point is to the left of the rectangle (case 0, 3, 5)
+        if (point.x <= this.point.x) {
+            // Point is above the rectangle (case 0)
+            if (point.y >= this.point.y) {
+                return point.getDistance(this.point);
+            }
+            // Point is bellow the rectangle (case 5)
+            else if (point.y <= this.getBottomRight().y) {
+                return point.getDistance(new Point(this.point.x, this.getBottomRight().y));
+            }
+            // Point is in between the rectangle (case 3)
+            else {
+                return this.point.x - point.x;
+            }
+        }
+        // Point is to the right of the rectangle (case 2, 4, 7)
+        else if (point.x >= this.getBottomRight().x) {
+            // Point is above the rectangle (case 2)
+            if (point.y >= this.point.y) {
+                return point.getDistance(new Point(this.getBottomRight().x, this.point.y));
+            }
+            // Point is bellow the rectangle (case 7)
+            else if (point.y <= this.getBottomRight().y) {
+                return point.getDistance(this.getBottomRight());
+            }
+            // Point is in between the rectangle (case 4)
+            else {
+                return point.x - this.getBottomRight().x;
+            }
+        }
+        // Point is in between the rectangle (case 1, 6)
+        else {
+            // Point is above the rectangle (case 1)
+            if (point.y >= this.point.y) {
+                return point.y - this.point.y;
+            }
+            // Point is bellow the rectangle (case 6)
+            else {
+                return this.getBottomRight().y - point.y;
+            }
+        }
+    }
+
     @Override
     public float getArea(RRectangle rectangle) {
         return newWidth(rectangle.getPoint(), rectangle.getBottomRight()) *
                 newHeight(rectangle.getPoint(), rectangle.getBottomRight());
     }
 
-    public boolean isIntersecting(Point topLeft, Point bottomRight) {
+    public boolean isIntersecting(RRectangle rectangle) {
+        Point topLeft = rectangle.getPoint();
+        Point bottomRight = rectangle.getBottomRight();
+
         // Check if one of the rectangles is
         if (this.point.x >= bottomRight.x || topLeft.x >= this.getBottomRight().x){
             return false;

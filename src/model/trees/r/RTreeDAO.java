@@ -20,7 +20,7 @@ public class RTreeDAO {
         int counter = Integer.parseInt(bufferedReader.readLine());
         for (int i = 0; i < counter; i++) {
             String[] info = bufferedReader.readLine().split(",");
-            treasurePosition.add(new RPoint(info[0], new Point(Float.parseFloat(info[1]) * 100, Float.parseFloat(info[2]) * 100)));
+            treasurePosition.add(new RPoint(info[0], new Point(Float.parseFloat(info[1]), Float.parseFloat(info[2]))));
         }
 
         bufferedReader.close();

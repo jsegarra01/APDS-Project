@@ -20,7 +20,7 @@ public class TreesManager {
     public static final int BY_LEVEL_TRAVERSAL_ID = 3;
 
     public TreesManager () throws IOException{
-        binaryTree = new AVLBinarySearchTree<>();
+        binaryTree = new BinarySearchTree<>();
         binaryTraversal = new BinarySearchTreeTraversal<>();
 
         rTree = new RTree();
@@ -85,24 +85,24 @@ public class TreesManager {
     private void initRTree() throws IOException {
         List<RPoint> nodeList = RTreeDAO.parseNodes();
 
-
         for (RPoint node : nodeList) {
             rTree.insert(node);
         }
 
         /*
-        rTree.insert(new RPoint("P1", new Point(200, 300)));
-        rTree.insert(new RPoint("P2", new Point(300, 100)));
-        rTree.insert(new RPoint("P3", new Point(600, 600)));
-        rTree.insert(new RPoint("P4", new Point(500, 500)));
-        rTree.insert(new RPoint("P5", new Point(500, 600)));
-        rTree.insert(new RPoint("P6", new Point(700, 400)));
-        rTree.insert(new RPoint("P7", new Point(800, 300)));
+        rTree.insert(new RPoint("P1", new Point(2, 3)));
+        rTree.insert(new RPoint("P2", new Point(3, 1)));
+        rTree.insert(new RPoint("P3", new Point(6, 6)));
+        rTree.insert(new RPoint("P4", new Point(5, 5)));
+        rTree.insert(new RPoint("P5", new Point(5, 6)));
+        rTree.insert(new RPoint("P6", new Point(7, 4)));
+        rTree.insert(new RPoint("P7", new Point(8, 3)));
+        rTree.insert(new RPoint("P8", new Point(6, 7)));
         */
     }
 
     public void addRNode(String nodeName, float x, float y) {
-        rTree.insert(new RPoint(nodeName, new Point(x * 100, y * 100)));
+        rTree.insert(new RPoint(nodeName, new Point(x, y)));
     }
 
     public void visualizeRTree() {
@@ -110,6 +110,25 @@ public class TreesManager {
     }
 
     public void searchByArea(float x1, float y1, float x2, float y2){
-        rTree.searchByArea(new Point(x1 * 100, y1* 100), new Point(x2* 100, y2* 100));
+        Point pointA = new Point(x1, y1);
+        Point pointB = new Point(x2, y2);
+
+        rTree.searchByArea(new RRectangle(pointA, pointB));
+
+        if (rTree.getResultSize() != 0) {
+            System.out.println("\n" + rTree.getResultSize() + " treasures were found in this area: \n");
+            for (String result : rTree.getSearchResult()) {
+                System.out.println("\t" + result);
+            }
+        }
+        else {
+            System.out.println("\nNo treasure was found in this areas");
+        }
+        System.out.println();
     }
+
+    public void searchByProximity() {
+        rTree.searchByProximity(new Point(0.8f, 1.2f), 3);
+    }
+
 }

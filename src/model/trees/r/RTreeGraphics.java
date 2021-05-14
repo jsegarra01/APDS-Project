@@ -16,7 +16,6 @@ public class RTreeGraphics extends JFrame {
         this.setTitle("RTree Visualization");
         this.setSize(1000, 1000);
         this.setBackground(Color.WHITE);
-        this.setResizable(false);
         this.setLocationRelativeTo(null);
 
         this.getContentPane().add(new JRTree());
@@ -36,6 +35,8 @@ public class RTreeGraphics extends JFrame {
 
     private class JRTree extends JPanel{
 
+        private static final int multiplier = 100;
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -46,26 +47,28 @@ public class RTreeGraphics extends JFrame {
             float x, y;
             float width, height;
 
+            // Traverse the tree
             for (RNode node : container.getNodes()) {
                 if (node instanceof RRectangle) {
                     RRectangle rRectangle = (RRectangle) node;
 
-                    x = rRectangle.getPoint().x;
-                    y = 800 - rRectangle.getPoint().y;
-                    width = rRectangle.getWidth();
-                    height = rRectangle.getHeight();
+                    x = rRectangle.getPoint().x * multiplier;
+                    y = 800 - ((rRectangle.getPoint().y) * multiplier);
+                    width = (rRectangle.getWidth() * multiplier) + 10;
+                    height = (rRectangle.getHeight() * multiplier) + 10;
 
                     g.setColor(randomColor());
-                    g.fill(new Rectangle2D.Float(x, y, width, height));
+                    g.setStroke(new BasicStroke(5));
+                    g.draw(new Rectangle2D.Float(x, y, width, height));
 
-                    if (rRectangle.getChild() != null) drawTreeRecursive(rRectangle.getChild(), g);
+                    drawTreeRecursive(rRectangle.getChild(), g);
                 }
                 else {
-                    x = node.getPoint().x - 5;
-                    y = 800 - node.getPoint().y - 5;
+                    x = node.getPoint().x * multiplier;
+                    y = 800 - ((node.getPoint().y) * multiplier);
 
                     g.setColor(Color.BLACK);
-                    g.drawString(((RPoint) node).getName(), x, y);
+                    g.drawString(node.toString(), x, y);
                     g.fill(new Ellipse2D.Float(x, y, 10, 10));
                 }
             }

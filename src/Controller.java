@@ -1,4 +1,5 @@
 import model.graph.GraphManager;
+import model.tables.TablesManager;
 import model.trees.TreesManager;
 import view.*;
 import view.menus.*;
@@ -8,6 +9,7 @@ public class Controller {
     // Managers
     private final GraphManager graphManager;
     private final TreesManager treesManager;
+    private final TablesManager tablesManager;
     private final UIManager UI;
 
     // Menu's IDs
@@ -26,9 +28,10 @@ public class Controller {
     private RTreeMenuOptions rTreeOption;
     private TablesMenuOptions tablesOption;
 
-    public Controller(GraphManager graphManager, TreesManager treesManager) {
+    public Controller(GraphManager graphManager, TreesManager treesManager, TablesManager tablesManager) {
         this.graphManager = graphManager;
         this.treesManager = treesManager;
+        this.tablesManager = tablesManager;
 
         UI = new UIManager();
     }
@@ -344,15 +347,33 @@ public class Controller {
     }
 
     private void addPirate() {
+        String name, role;
+        int age;
+
+        name = UI.askString("Enter the pirates name: ");
+        age = UI.askInteger("Enter the pirates age: ");
+        role = UI.askString("Enter the pirates role: ");
+        tablesManager.addPirate(name, age, role);
     }
 
     private void removePirate() {
+        String name;
+
+        name = UI.askString("Enter the pirates name: ");
+
+        tablesManager.removePirate(name);
     }
 
     private void showPirate() {
+        String name;
+
+        name = UI.askString("Enter the pirates name: ");
+
+        tablesManager.printPirateInfo(name);
     }
 
     private void ageHistogram() {
+        tablesManager.printHistogram();
     }
 
 

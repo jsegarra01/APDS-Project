@@ -13,7 +13,7 @@ public class Main {
 
         try {
             graphManager = new GraphManager();
-            //treesManager = new TreesManager();
+            treesManager = new TreesManager();
             tablesManager = new TablesManager();
 
         } catch (IOException e) {

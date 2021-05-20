@@ -103,18 +103,17 @@ public class RTree {
         parentContainer.setLeaf();
 
         // Reinsert the rest of the children
-        for (RNode node : container.getNodes()) {
-            if (!node.equals(node1) && !node.equals(node2)) {
-                if (node instanceof RPoint) {
-                    // If they are points insert them again recursively
-                    insertRecursive(parentContainer, node);
-                }
-                else {
-                    // If they are rectangles insert them to the big rectangle that grows the least
-                    RRectangle successor = getMinGrowthRectangle(node, parentContainer);
-                    successor.getChild().insertNode(node);
-                    if (successor.getChild().isOverload()) split(successor.getChild());
-                }
+        List<RNode> leftOvers = new ArrayList<>(container.getNodes());
+        leftOvers.remove(node1);
+        leftOvers.remove(node2);
+
+        for (RNode node : leftOvers) {
+            RRectangle successor = getMinGrowthRectangle(node, parentContainer);
+            successor.getChild().insertNode(node);
+
+            if (node instanceof RRectangle) {
+                // Update parent container reference on child
+                ((RRectangle) node).getChild().setParentContainer(successor.getChild());
             }
         }
 
@@ -133,12 +132,17 @@ public class RTree {
         // Children relation
         rectangle.setChild(childContainer);
 
+        if (node instanceof RRectangle) {
+            // Update parent container reference on child
+            ((RRectangle) node).getChild().setParentContainer(childContainer);
+        }
+
         return rectangle;
     }
 
     // -------------------------------- DELETE --------------------------------
 
-    // TODO: Deleteion
+    // TODO: Deletion
 
     // -------------------------------- SEARCH BY AREA --------------------------------
 

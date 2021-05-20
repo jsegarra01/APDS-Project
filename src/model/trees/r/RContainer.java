@@ -54,7 +54,7 @@ public class RContainer {
     }
 
     public void removeNode(RNode node) {
-        nodes.remove(node);
+       nodes.remove(node);
     }
 
     public boolean isOverload() {

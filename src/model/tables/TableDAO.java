@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableDAO {
-    private static final String PATH = "res/Tables/tablesXS.paed";
+    private static final String PATH = "res/Tables/tablesXXS.paed";
 
     public static List<Pirate> parseNodes() throws IOException {
         List<Pirate> crewList = new ArrayList<>();

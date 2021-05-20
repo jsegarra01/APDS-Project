@@ -25,7 +25,7 @@ public class TablesManager {
         tableAge = new TableAge(NAge);
         initTables();
 
-        printTable(table);
+        //printTable(table);
     }
 
     private void initTables() throws IOException {
@@ -45,8 +45,11 @@ public class TablesManager {
 
     //Removes a pirate from both tables
     public void removePirate(String name){
-        table.removePirate(table.getPirate(name));
-        tableAge.removePirate(table.getPirate(name));
+        Pirate pirate = table.getPirate(name);
+        if(null != pirate){
+            table.removePirate(pirate);
+            tableAge.removePirate(pirate);
+        }
     }
 
     //Gets the information from the first table

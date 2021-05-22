@@ -68,7 +68,7 @@ public class RTreeGraphics extends JFrame {
                     y = 800 - ((node.getPoint().y) * multiplier);
 
                     g.setColor(Color.BLACK);
-                    g.drawString(node.toString(), x, y);
+                    g.drawString(node.toString().substring(node.toString().indexOf('(')), x, y);
                     g.fill(new Ellipse2D.Float(x, y, 10, 10));
                 }
             }

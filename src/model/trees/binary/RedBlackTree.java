@@ -1,6 +1,6 @@
 package model.trees.binary;
 
-public class RedBlackBinarySearchTree<T extends Comparable<T>> extends BinarySearchTree<T> {
+public class RedBlackTree<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     // RBT with n nodes has a max height of 2 * log(n + 1) --> O(2log(n+1))
 
@@ -18,7 +18,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> extends BinarySea
 
     private final RedBlackNode<T> nil;       // Sentinel
 
-    public RedBlackBinarySearchTree() {
+    public RedBlackTree() {
         nil = new RedBlackNode<>();
         root = nil;
     }
@@ -212,7 +212,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> extends BinarySea
         }
 
         if (originalColor == RedBlackNode.BLACK) {
-            // TODO: balance tree
+            // TODO: balance tree (check different cases)
         }
     }
 

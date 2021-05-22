@@ -1,9 +1,10 @@
 package model.tables;
 
 public class Pirate {
-    private String name;
-    private int age;
-    private String role;
+
+    private final String name;
+    private final int age;
+    private final String role;
 
     public Pirate(String name, int age, String role){
         this.name = name;

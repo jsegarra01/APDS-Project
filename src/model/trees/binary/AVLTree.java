@@ -1,6 +1,6 @@
 package model.trees.binary;
 
-public class AVLBinarySearchTree<T extends Comparable<T>> extends BinarySearchTree<T> {
+public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     @Override
     public void insert(BinaryNode<T> node) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Graph implements GraphInterface {
+public class Graph {
 
     private float[][] adjacentMatrix;
     private int[] mapping;
@@ -43,12 +43,10 @@ public class Graph implements GraphInterface {
         return mapping;
     }
 
-    @Override
     public GraphNode getNode(int nodeID) {
         return graphNodeList.get(mapping[nodeID]);
     }
 
-    @Override
     public float getWeight(GraphNode nodeA, GraphNode nodeB) {
         return adjacentMatrix[mapping[nodeA.getId()]][mapping[nodeB.getId()]];
     }
@@ -57,7 +55,6 @@ public class Graph implements GraphInterface {
         return graphNodeList.get(nodeID);
     }
 
-    @Override
     public boolean isNode(int nodeID) {
         return mapping[nodeID] != -1;
     }
@@ -95,7 +92,6 @@ public class Graph implements GraphInterface {
         }
     }
 
-    @Override
     public void addEdge(int vertexA, int vertexB, float weight) {
         adjacentMatrix[mapping[vertexA]][mapping[vertexB]] = weight;
     }

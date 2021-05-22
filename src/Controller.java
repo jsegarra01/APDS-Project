@@ -290,7 +290,7 @@ public class Controller {
 
     private void removeTreasureR() {
         // Not implemented
-        UI.displayMessage("This option is to be implemented. :(\n");
+        UI.displayMessage("This option is to be implemented... :(\n");
     }
 
     private void visualize() {
@@ -360,7 +360,6 @@ public class Controller {
         String name;
 
         name = UI.askString("Enter the pirates name: ");
-
         tablesManager.removePirate(name);
     }
 
@@ -368,13 +367,10 @@ public class Controller {
         String name;
 
         name = UI.askString("Enter the pirates name: ");
-
-        tablesManager.printPirateInfo(name);
+        tablesManager.showPirate(name);
     }
 
     private void ageHistogram() {
         tablesManager.printHistogram();
     }
-
-
 }

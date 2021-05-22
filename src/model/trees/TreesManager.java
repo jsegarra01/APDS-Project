@@ -84,17 +84,6 @@ public class TreesManager {
         for (RPoint node : nodeList) {
             rTree.insert(node);
         }
-
-        /*
-        rTree.insert(new RPoint("P1", new Point(2, 3)));
-        rTree.insert(new RPoint("P2", new Point(3, 1)));
-        rTree.insert(new RPoint("P3", new Point(6, 6)));
-        rTree.insert(new RPoint("P4", new Point(5, 5)));
-        rTree.insert(new RPoint("P5", new Point(5, 6)));
-        rTree.insert(new RPoint("P6", new Point(7, 4)));
-        rTree.insert(new RPoint("P7", new Point(8, 3)));
-        rTree.insert(new RPoint("P8", new Point(6, 7)));
-        */
     }
 
     public void addRNode(String nodeName, float x, float y) {

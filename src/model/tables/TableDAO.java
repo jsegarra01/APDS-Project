@@ -1,8 +1,5 @@
 package model.tables;
 
-import model.trees.binary.AVLNode;
-import model.trees.binary.BinaryNode;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
